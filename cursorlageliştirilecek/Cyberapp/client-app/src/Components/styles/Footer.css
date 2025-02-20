@@ -1,0 +1,129 @@
+/* Footer Container */
+.footer {
+    background-color: #111;
+    color: #f4f4f4;
+    padding: 30px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  .footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Logo Styles */
+  .logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .logo-link {
+    display: inline-block;
+    margin-right: 50px;
+    margin-left: 10px;
+  }
+  
+  .logo-image {
+    display: block;
+    width: auto;
+    height: auto;
+  }
+  
+  /* Footer Description */
+  .footer-description {
+    font-size: 14px;
+    color: #c9c9c9;
+    text-align: center;
+  }
+  
+  /* Footer Bottom Section */
+  .footer-bottom {
+    border-top: 1px solid #444;
+    padding-top: 20px;
+    margin-top: 30px;
+  }
+  
+  .footer-bottom-text {
+    font-size: 14px;
+    color: #c9c9c9;
+    display: flex;
+    justify-content: center;
+  }
+  
+  /* Social Icons */
+  .social-icons {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  
+  .icon-link {
+    margin: 0 10px;
+    color: #c9c9c9;
+    font-size: 18px;
+    transition: color 0.3s ease;
+  }
+  
+  .icon-link:hover .icon {
+    color: #fff;
+  }
+  
+  .icon {
+    width: 24px;
+    height: 24px;
+    color: #c9c9c9;
+  }
+  
+  /* Quick Links */
+  .quick-links {
+    text-align: center;
+    margin-top: 30px;
+    padding: 20px;
+  }
+  
+  .link-title {
+    font-size: 18px;
+    color: #fff;
+    margin-bottom: 15px;
+  }
+  
+  .link-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .link {
+    color: #c9c9c9;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+  }
+  
+  .link:hover {
+    color: #fff;
+  }
+  
+  /* Back to Top Button */
+  .back-to-top-button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    padding: 10px 20px;
+    background-color: #f4f4f4;
+    color: #111;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    font-size: 16px;
+  }
+  
+  .back-to-top-button.scrolled {
+    background-color: #555;
+    color: #fff;
+  }
+  

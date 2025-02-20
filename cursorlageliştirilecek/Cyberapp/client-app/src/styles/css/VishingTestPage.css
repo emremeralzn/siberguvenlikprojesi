@@ -1,0 +1,101 @@
+.page {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #0d1117;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 0;
+  background-color: #0d1117;
+}
+
+.gameContainer {
+  width: 100%;
+  max-width: 1200px;
+  background-color: #0d1117;
+  border-radius: 15px;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.title {
+  color: #1e90ff;
+  font-size: 36px;
+  text-align: center;
+  margin-bottom: 30px;
+  text-shadow: 0 0 12px #1e90ff, 0 0 24px #1e90ff;
+}
+
+.scenarioTitle {
+  color: #58a6ff;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.scenarioDescription {
+  color: #ffffff;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.contentBox {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
+
+.optionsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.button {
+  padding: 15px 30px;
+  font-size: 18px;
+  border-radius: 8px;
+  border: none;
+  background-color: #1e90ff;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.feedback {
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.scoreBoard {
+  color: #ffffff;
+  font-size: 20px;
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .gameContainer {
+    padding: 20px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .scenarioTitle {
+    font-size: 20px;
+  }
+} 

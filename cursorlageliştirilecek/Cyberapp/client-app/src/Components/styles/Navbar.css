@@ -1,0 +1,117 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: #1c1c1c;
+    color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 100;
+  }
+  
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #00ffcc;
+  }
+  
+  .logoImage {
+    height: 40px;
+    width: auto;
+  }
+  
+  .navLinks {
+    display: flex;
+    list-style: none;
+    margin: 0;
+  }
+  
+  .link {
+    color: #ffffff;
+    text-decoration: none;
+    margin-right: 20px;
+    font-size: 16px;
+    padding: 8px 12px;
+    transition: color 0.3s;
+  }
+  
+  .dropdown {
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .dropdownMenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #333;
+    list-style: none;
+    padding: 10px 0;
+    min-width: 150px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    z-index: 9999;
+  }
+  
+  .dropdownLink {
+    color: #ffffff;
+    text-decoration: none;
+    display: block;
+    padding: 8px 20px;
+    font-size: 14px;
+    transition: color 0.3s;
+  }
+  
+  .loginButton {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 8px 12px;
+    border: 1px solid #ffffff;
+    border-radius: 4px;
+    transition: all 0.3s;
+  }
+  
+  .profile {
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .profileIcon {
+    background-color: #00ffcc;
+    color: #1c1c1c;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .profileMenu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #333;
+    list-style: none;
+    padding: 10px 0;
+    min-width: 150px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    z-index: 9999;
+  }
+  
+  .socialIcons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .socialIconImage {
+    font-size: 20px;
+    color: #ffffff;
+  }
+  
