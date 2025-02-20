@@ -64,7 +64,7 @@ const PhishingSimulator = () => {
           </div>
 
           <motion.button
-            onClick={() => navigate('/phishing/test')}
+            onClick={() => navigate('/simulators/phishing/test')}
             className="button"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

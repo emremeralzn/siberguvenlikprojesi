@@ -61,7 +61,7 @@ const VishingSimulator = () => {
           </div>
 
           <motion.button
-            onClick={() => navigate('/vishing/test')}
+            onClick={() => navigate('/simulators/vishing/test')}
             className="button"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

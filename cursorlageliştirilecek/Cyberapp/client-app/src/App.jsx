@@ -19,8 +19,8 @@ import PretextingTestPage from './pages/PretextingTestPage';
 import VishingSimulator from './pages/VishingSimulator';
 import VishingTestPage from './pages/VishingTestPage';
 import TipsPage from './pages/TipsPage';
+import PhishingSimulatorPage from './pages/PhishingSimulatorPage';
 import SimulatorsPage from './pages/SimulatorsPage';
-
 function App() {
   return (
     <AuthProvider>
@@ -33,18 +33,24 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/userpanel" element={<UserPanel />} />
-          <Route path="/simulators/phishing" element={<PhishingSimulator />} />
-          <Route path="/simulators/baiting" element={<BaitingSimulator />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/phishing/test" element={<PhishingTestPage />} />
-          <Route path="/simulators/baiting/test" element={<BaitingTestPage />} />
-          <Route path="/simulators/pretexting" element={<PretextingSimulator />} />
-          <Route path="/pretexting/test" element={<PretextingTestPage />} />
-          <Route path="/simulators/vishing" element={<VishingSimulator />} />
-          <Route path="/vishing/test" element={<VishingTestPage />} />
           <Route path="/tips" element={<TipsPage />} />
-          <Route path="/simulators/pretexting/test" element={<PretextingTestPage />} />
           <Route path="/simulators" element={<SimulatorsPage />} />
+
+          <Route path="/simulators/phishing" element={<PhishingSimulator />} />
+          <Route path="/simulators/phishing/test" element={<PhishingTestPage />} />
+          <Route path="/simulators/phishing/simulator" element={<PhishingSimulatorPage />} />
+
+          <Route path="/simulators/baiting" element={<BaitingSimulator />} />
+          <Route path="/simulators/baiting/test" element={<BaitingTestPage />} />
+
+          <Route path="/simulators/pretexting" element={<PretextingSimulator />} />
+          <Route path="/simulators/pretexting/test" element={<PretextingTestPage />} />
+
+          <Route path="/simulators/vishing" element={<VishingSimulator />} />
+          <Route path="/simulators/vishing/test" element={<VishingTestPage />} />
+
+          <Route path="/simulators/pretexting/test" element={<PretextingTestPage />} />
         </Routes>
         <Footer footerData={{/* footer verilerini buraya ekleyebilirsiniz */}} />  {/* Footer'ı burada ekliyoruz */}
       </Router>
