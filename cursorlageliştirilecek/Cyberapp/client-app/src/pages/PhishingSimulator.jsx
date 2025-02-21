@@ -69,6 +69,14 @@ const PhishingSimulator = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
+            Teste Başla
+          </motion.button>
+          <motion.button
+            onClick={() => navigate('/simulators/phishing/simulator')}
+            className="button"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
             Simülasyonu Başlat
           </motion.button>
         </motion.div>

@@ -8,12 +8,11 @@ const TypewriterText = ({ text, onComplete, delay = 0, volume }) => {
   const [displayedText, setDisplayedText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const audioRef = useRef(new Audio(typingSound));
-  const startTime = 3; // Başlangıç saniyesi
-  const endTime = 10; // Bitiş saniyesi
-  const duration = endTime - startTime; // Toplam süre
+  const startTime = 3;
+  const endTime = 10;
+  const duration = endTime - startTime;
 
   useEffect(() => {
-    // Ses seviyesini 0-1 arasında tut
     audioRef.current.volume = Math.min(1, Math.max(0, volume));
     audioRef.current.currentTime = 2.5;
     
@@ -36,7 +35,6 @@ const TypewriterText = ({ text, onComplete, delay = 0, volume }) => {
     };
   }, [currentIndex, text, onComplete, delay, volume]);
 
-  // Component unmount olduğunda ses nesnesini temizle
   useEffect(() => {
     return () => {
       audioRef.current.pause();
@@ -46,7 +44,7 @@ const TypewriterText = ({ text, onComplete, delay = 0, volume }) => {
   return <span>{displayedText}</span>;
 };
 
-const PhishingSimulatorPage = () => {
+const BaitingSimulatorPage = () => {
   const { user } = useContext(AuthContext);
   const [isStarted, setIsStarted] = useState(false);
   const [currentScene, setCurrentScene] = useState(0);
@@ -78,7 +76,7 @@ const PhishingSimulatorPage = () => {
             animate={{ y: 0, opacity: 1 }}
             style={styles.infoContainer}
           >
-            <h1 style={styles.title}>Oltalama (Phishing) Simülasyonu</h1>
+            <h1 style={styles.title}>Tuzak (Baiting) Simülasyonu</h1>
             
             <div style={styles.infoSection}>
               <div style={styles.volumeControl}>
@@ -98,15 +96,15 @@ const PhishingSimulatorPage = () => {
 
               <h2 style={styles.subtitle}>Simülasyon Hakkında</h2>
               <p style={styles.text}>
-                Bu simülasyonda, günlük hayatta karşılaşabileceğiniz çeşitli oltalama senaryolarıyla karşılaşacaksınız:
+                Bu simülasyonda, günlük hayatta karşılaşabileceğiniz çeşitli tuzak senaryolarıyla karşılaşacaksınız:
               </p>
               
               <ul style={styles.list}>
-                <li>📧 Şüpheli E-postalar</li>
-                <li>🌐 Sahte Web Siteleri</li>
-                <li>💳 Banka Bildirimleri</li>
-                <li>📱 SMS Dolandırıcılığı</li>
-                <li>🔑 Hesap Güvenliği</li>
+                <li>💾 USB Bellekler</li>
+                <li>💿 CD/DVD'ler</li>
+                <li>📦 Şüpheli Paketler</li>
+                <li>🎁 Bedava Teklifler</li>
+                <li>💻 İkinci El Cihazlar</li>
               </ul>
 
               <h2 style={styles.subtitle}>Nasıl Oynanır?</h2>
@@ -155,13 +153,11 @@ const PhishingSimulatorPage = () => {
     setCurrentFeedback(option.feedback);
     setShowFeedback(true);
 
-    // 3 saniye feedback göster
     setTimeout(() => {
       const newScore = score + option.scoreImpact;
       setScore(newScore);
       setShowFeedback(false);
       
-      // Reset all states
       setShowTitle(true);
       setShowDescription(false);
       setShowContent(false);
@@ -177,141 +173,112 @@ const PhishingSimulatorPage = () => {
 
   const scenarios = [
     {
-      type: 'wifi',
-      title: 'Kafede WiFi Seçimi',
-      description: 'Yoğun bir iş gününün ardından favori kafenize geldiniz. Laptopunuzla biraz çalışmak istiyorsunuz.',
-      content: `Cafe'nin WiFi ağları listesinde birkaç seçenek var:
-      - CafeWifi_Free
-      - CafeWifi_Secure
-      - FreePublicWifi`,
+      type: 'usb',
+      title: 'Şüpheli USB Bellek',
+      description: 'Ofis masanızda üzerinde "Yıllık Performans Primleri 2024" yazan bir USB bellek buldunuz.',
+      content: `USB belleğin detayları:
+      - Yeni ve temiz görünüyor
+      - Şirket logosu var gibi
+      - Hiçbir çizik veya hasar yok
+      - Masanıza kimin bıraktığı belli değil`,
       options: [
         { 
-          text: 'CafeWifi_Free - Açık Ağ', 
-          nextScenario: 'unsecure_wifi',
+          text: 'USB belleği bilgisayarınıza takıp içeriğine bakın', 
           scoreImpact: -30,
-          feedback: 'Açık ağa bağlandınız. Verileriniz şu anda risk altında olabilir. Birisi ağ trafiğinizi izliyor olabilir...'
+          feedback: 'Tehlikeli bir seçim! USB bellekler zararlı yazılım bulaştırmak için sıkça kullanılan bir yöntemdir.'
         },
         { 
-          text: 'Kafeye ait WiFi şifresini sor', 
-          nextScenario: 'secure_wifi',
+          text: 'USB belleği IT departmanına teslim edin', 
           scoreImpact: 20,
-          feedback: 'Güvenli bir seçim yaptınız. Garson size şifreyi verdi ve güvenli ağa bağlandınız.'
+          feedback: 'Mükemmel! IT departmanı USB belleği güvenli bir ortamda inceleyebilir.'
         }
       ]
     },
     {
-      id: 'unsecure_wifi',
-      type: 'email',
-      title: 'Şüpheli Mail',
-      description: 'Tam bu sırada gelen kutunuza yeni bir mail düştü.',
-      content: `Konu: Acil - Banka Hesabınız
-      
-      Sayın müşterimiz,
-      Açık ağa bağlandığınızı tespit ettik. Güvenliğiniz için hesabınızı doğrulamanız gerekiyor.
-      Hemen aşağıdaki bağlantıya tıklayın.`,
+      type: 'cd',
+      title: 'Ücretsiz Film CD\'si',
+      description: 'Otoparkta arabanızın camında "Ücretsiz Film Koleksiyonu" yazılı bir CD buldunuz.',
+      content: `CD'nin özellikleri:
+      - Profesyonel görünümlü baskı
+      - "En Yeni Filmler - 2024" yazısı
+      - Şeffaf plastik kılıf içinde
+      - Hiçbir çizik yok`,
       options: [
         { 
-          text: 'Bağlantıya tıkla ve giriş yap', 
-          nextScenario: 'compromised_account',
+          text: 'CD\'yi bilgisayarınıza takın', 
           scoreImpact: -30,
-          feedback: 'Maalesef bu bir tuzaktı. Bağlandığınız açık ağdaki kötü niyetli biri sizin banka bilgilerinizi ele geçirdi.'
+          feedback: 'Yanlış seçim! Bu tür CD\'ler genellikle zararlı yazılım içerir.'
         },
         { 
-          text: 'Maili sil ve bankayı ara', 
-          nextScenario: 'safe_banking',
+          text: 'CD\'yi güvenli bir şekilde imha edin', 
           scoreImpact: 20,
-          feedback: 'Çok akıllıca! Banka bu tür maillerle asla bilgi istemez. Bankanızı aradınız ve hesabınızın güvende olduğunu öğrendiniz.'
+          feedback: 'Harika! Kaynağı belirsiz medya araçlarını asla kullanmamalısınız.'
         }
       ]
     },
     {
-      id: 'compromised_account',
-      type: 'notification',
-      title: 'Hesap Bildirimi',
-      description: 'Az önce telefonunuza bir SMS geldi.',
-      content: `Bankadan gelen SMS:
-      "Hesabınızdan 5000TL tutarında bir EFT işlemi gerçekleştirildi.
-      İşlemi siz yapmadıysanız hemen 0850XXX numaralı müşteri hizmetlerimizi arayın."`,
+      type: 'package',
+      title: 'Beklenmeyen Paket',
+      description: 'Eve geldiğinizde kapınızın önünde adınıza gönderilmiş bir paket buldunuz. Sipariş verdiğinizi hatırlamıyorsunuz.',
+      content: `Paketin özellikleri:
+      - İsim ve adres doğru yazılmış
+      - Gönderici bilgisi belirsiz
+      - "Hediyeniz!" notu var
+      - Orta boy bir kutu`,
       options: [
         { 
-          text: 'SMS\'teki numarayı ara', 
-          nextScenario: 'phone_scam',
+          text: 'Paketi açıp içine bakın', 
           scoreImpact: -30,
-          feedback: 'Bu da ikinci bir tuzaktı. Dolandırıcılar şimdi de telefon üzerinden bilgilerinizi almaya çalıştı.'
+          feedback: 'Riskli! Beklenmeyen paketler tehlikeli olabilir. Önce göndericiyi doğrulamalısınız.'
         },
         { 
-          text: 'Bankanın resmi numarasını internet sitesinden bul ve ara', 
-          nextScenario: 'safe_call',
+          text: 'Güvenlik birimlerine haber verin', 
           scoreImpact: 20,
-          feedback: 'Harika bir karar! Bankanın gerçek numarasını aradınız. Hesabınızda herhangi bir şüpheli işlem olmadığını öğrendiniz.'
+          feedback: 'Çok doğru! Şüpheli paketler için her zaman güvenlik birimlerine danışın.'
         }
       ]
     },
     {
-      id: 'phone_scam',
-      type: 'recovery',
-      title: 'Telefon Görüşmesi',
-      description: 'Şüpheli numarayı aradınız ve karşınızdaki kişi banka yetkilisi olduğunu iddia ediyor.',
-      content: `"Güvenliğiniz için hesap bilgilerinizi doğrulamamız gerekiyor. 
-      Lütfen kart numaranızı ve telefonunuza gelecek onay kodunu bizimle paylaşın."`,
+      type: 'harddisk',
+      title: 'İkinci El Hard Disk',
+      description: 'Bir arkadaşınız size çok uygun fiyata bir harici hard disk satmak istiyor. "İçinde değerli yazılımlar var" diyor.',
+      content: `Hard disk hakkında:
+      - 2TB depolama
+      - Çok uygun fiyat
+      - "Lisanslı yazılımlar yüklü"
+      - "Hemen kullanıma hazır"`,
       options: [
         { 
-          text: 'Bilgileri paylaş', 
-          nextScenario: 'final_mistake',
+          text: 'Hard diski satın alıp kullanmaya başlayın', 
           scoreImpact: -30,
-          feedback: 'Dolandırıcılara bilgilerinizi verdiniz. Hesabınızdaki tüm para çekildi!'
+          feedback: 'Yanlış karar! İkinci el depolama cihazları zararlı yazılım içerebilir.'
         },
         { 
-          text: 'Görüşmeyi sonlandır ve gerçek banka şubesine git', 
-          nextScenario: 'safe_ending',
+          text: 'Teklifi reddedip kendi hard diskinizi alın', 
           scoreImpact: 20,
-          feedback: 'Akıllıca! Şüpheli durumu fark ettiniz ve doğru hamleyi yaptınız.'
+          feedback: 'Akıllıca! Güvenilir kaynaklardan yeni ürün almak her zaman daha güvenlidir.'
         }
       ]
     },
     {
-      id: 'safe_call',
-      type: 'payment',
-      title: 'Güvenli Görüşme',
-      description: 'Bankanın gerçek müşteri hizmetleriyle görüştünüz.',
-      content: `Banka yetkilisi:
-      "Hesabınızda herhangi bir şüpheli işlem görünmüyor. 
-      Bu tür dolandırıcılık girişimlerine karşı dikkatli olduğunuz için teşekkür ederiz."`,
+      type: 'prize',
+      title: 'Bedava Tablet',
+      description: 'Alışveriş merkezinde bir stant "Anketi doldurana tablet hediye!" diye duyuru yapıyor.',
+      content: `Stanttaki detaylar:
+      - 5 dakikalık anket
+      - Kişisel bilgiler isteniyor
+      - Hemen tablet teslimi
+      - "Son 3 tablet kaldı!"`,
       options: [
         { 
-          text: 'Teşekkür edip görüşmeyi sonlandır', 
-          nextScenario: 'safe_ending',
-          scoreImpact: 20,
-          feedback: 'Güvenli bir şekilde durumu kontrol ettiniz. Artık kafeden ayrılma vakti.'
-        },
-        { 
-          text: 'Ek güvenlik önlemleri hakkında bilgi al', 
-          nextScenario: 'safe_ending',
-          scoreImpact: 30,
-          feedback: 'Harika! Güvenlik konusunda ekstra bilgi alarak kendinizi daha iyi korudunuz.'
-        }
-      ]
-    },
-    {
-      id: 'safe_ending',
-      type: 'payment',
-      title: 'Kafe Ödemesi',
-      description: 'Tüm bu olayların ardından artık kafeden ayrılma vakti geldi.',
-      content: `Garson masanıza geldi:
-      "Ödemeyi nasıl yapmak istersiniz? 
-      Masada QR kod var ya da kasaya gelebilirsiniz."`,
-      options: [
-        { 
-          text: 'Masadaki QR kodu kullan', 
-          nextScenario: 'final_scene',
+          text: 'Anketi doldurup tableti almaya çalışın', 
           scoreImpact: -30,
-          feedback: 'Yaşadığınız onca şeyden sonra hala risk almayı seçtiniz. QR kod değiştirilmiş olabilirdi!'
+          feedback: 'Bu bir tuzak! Bedava tablet vaadi ile kişisel bilgilerinizi toplamaya çalışıyorlar.'
         },
         { 
-          text: 'Kasaya gidip nakit öde', 
-          nextScenario: 'final_scene',
+          text: 'Teklifi görmezden gelip yolunuza devam edin', 
           scoreImpact: 20,
-          feedback: 'Harika! Yaşadığınız olaylardan ders çıkardınız ve güvenli ödeme yöntemini seçtiniz.'
+          feedback: 'Mükemmel! "Bedava" teklifler genellikle bir tuzaktır.'
         }
       ]
     }
@@ -321,6 +288,11 @@ const PhishingSimulatorPage = () => {
     setCurrentScene(0);
     setScore(100);
     setGameOver(false);
+    setShowTitle(true);
+    setShowDescription(false);
+    setShowContent(false);
+    setShowOptions(false);
+    setShowFeedback(false);
   };
 
   return (
@@ -331,6 +303,21 @@ const PhishingSimulatorPage = () => {
     >
       <div style={styles.overlay}></div>
       <div style={styles.content}>
+        <div style={styles.volumeControl}>
+          <label style={styles.volumeLabel}>
+            Ses Seviyesi: {Math.round(volume * 100)}%
+          </label>
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value={volume}
+            onChange={(e) => setVolume(parseFloat(e.target.value))}
+            style={styles.volumeSlider}
+          />
+        </div>
+
         {!gameOver ? (
           <motion.div 
             key={currentScene}
@@ -418,9 +405,9 @@ const PhishingSimulatorPage = () => {
             <h2>Simülasyon Tamamlandı!</h2>
             <div style={styles.score}>Final Puanınız: {score}</div>
             <div style={styles.feedback}>
-              {score >= 90 ? "Harika! Siber güvenlik konusunda çok bilinçlisiniz!" :
+              {score >= 90 ? "Harika! Tuzaklara karşı çok dikkatlisiniz!" :
                score >= 70 ? "İyi! Ancak daha dikkatli olabilirsiniz." :
-               "Biraz daha dikkatli olmalısınız. Siber güvenlik çok önemli!"}
+               "Tuzaklara karşı daha dikkatli olmalısınız!"}
             </div>
             <div style={styles.buttonContainer}>
               <motion.button
@@ -466,136 +453,6 @@ const styles = {
     width: '100%',
     margin: '0 auto',
   },
-  gameContainer: {
-    background: 'linear-gradient(180deg, #2a2a2a 0%, #1f1f1f 100%)',
-    padding: '40px',
-    borderRadius: '15px',
-    boxShadow: '0 0 50px rgba(0,0,0,0.5)',
-    border: '1px solid rgba(255,255,255,0.1)',
-  },
-  scenarioTitle: {
-    marginBottom: '30px',
-    '& h3': {
-      color: '#ffffff',
-      fontSize: '28px',
-      fontWeight: '600',
-      marginBottom: '20px',
-      textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
-    },
-    '& p': {
-      color: '#ffffff',
-      fontSize: '18px',
-      lineHeight: '1.6',
-      opacity: 0.9,
-    }
-  },
-  contentBox: {
-    background: 'rgba(0,0,0,0.3)',
-    padding: '25px',
-    borderRadius: '10px',
-    marginBottom: '30px',
-    border: '1px solid rgba(255,255,255,0.1)',
-    boxShadow: 'inset 0 0 10px rgba(0,0,0,0.3)',
-  },
-  contentText: {
-    color: '#ffffff',
-    whiteSpace: 'pre-wrap',
-    fontSize: '18px',
-    lineHeight: '1.6',
-    letterSpacing: '0.5px',
-    opacity: 0.9,
-  },
-  optionsContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '15px',
-    marginTop: '30px',
-  },
-  optionButton: {
-    padding: '20px',
-    fontSize: '16px',
-    borderRadius: '10px',
-    background: 'linear-gradient(135deg, #2196f3 0%, #1976d2 100%)',
-    color: '#ffffff',
-    cursor: 'pointer',
-    transition: 'all 0.3s ease',
-    textAlign: 'left',
-    border: 'none',
-    fontWeight: '500',
-    letterSpacing: '0.5px',
-    boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
-    '&:hover': {
-      background: 'linear-gradient(135deg, #1e88e5 0%, #1565c0 100%)',
-      transform: 'translateY(-2px)',
-      boxShadow: '0 6px 20px rgba(33,150,243,0.3)',
-    },
-    '&:active': {
-      transform: 'translateY(1px)',
-    }
-  },
-  endScreen: {
-    background: 'linear-gradient(180deg, #2a2a2a 0%, #1f1f1f 100%)',
-    padding: '40px',
-    borderRadius: '15px',
-    boxShadow: '0 0 50px rgba(0,0,0,0.5)',
-    textAlign: 'center',
-    border: '1px solid rgba(255,255,255,0.1)',
-  },
-  score: {
-    color: '#2196f3',
-    fontSize: '28px',
-    marginBottom: '30px',
-    fontWeight: '600',
-    textShadow: '0 0 10px rgba(33,150,243,0.3)',
-  },
-  feedback: {
-    margin: '20px 0',
-    padding: '25px',
-    background: 'rgba(0,0,0,0.3)',
-    borderRadius: '10px',
-    color: '#ffffff',
-    fontSize: '18px',
-    lineHeight: '1.6',
-    border: '1px solid rgba(255,255,255,0.1)',
-    boxShadow: 'inset 0 0 10px rgba(0,0,0,0.3)',
-  },
-  buttonContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    marginTop: '30px',
-  },
-  button: {
-    padding: '15px 40px',
-    fontSize: '18px',
-    background: 'linear-gradient(135deg, #2196f3 0%, #1976d2 100%)',
-    color: '#ffffff',
-    border: 'none',
-    borderRadius: '10px',
-    cursor: 'pointer',
-    transition: 'all 0.3s ease',
-    fontWeight: '600',
-    boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
-    '&:hover': {
-      background: 'linear-gradient(135deg, #1e88e5 0%, #1565c0 100%)',
-      transform: 'translateY(-2px)',
-      boxShadow: '0 6px 20px rgba(33,150,243,0.3)',
-    },
-    '&:active': {
-      transform: 'translateY(1px)',
-    }
-  },
-  feedbackBox: {
-    background: 'rgba(0,0,0,0.8)',
-    padding: '20px',
-    borderRadius: '10px',
-    marginTop: '20px',
-    border: '1px solid rgba(255,255,255,0.1)',
-    color: '#ffffff',
-    fontSize: '18px',
-    textAlign: 'center',
-    boxShadow: '0 0 20px rgba(0,0,0,0.5)',
-    animation: 'fadeIn 0.5s ease-in-out'
-  },
   volumeControl: {
     display: 'flex',
     flexDirection: 'column',
@@ -637,6 +494,94 @@ const styles = {
       cursor: 'pointer',
       border: 'none',
     },
+  },
+  gameContainer: {
+    background: 'rgba(0,0,0,0.5)',
+    padding: '30px',
+    borderRadius: '15px',
+    border: '1px solid rgba(255,255,255,0.1)',
+    backdropFilter: 'blur(10px)',
+  },
+  scenarioTitle: {
+    marginBottom: '30px',
+    '& h3': {
+      fontSize: '24px',
+      marginBottom: '15px',
+      color: '#2196f3'
+    }
+  },
+  contentBox: {
+    background: 'rgba(0,0,0,0.3)',
+    padding: '20px',
+    borderRadius: '10px',
+    marginBottom: '20px',
+    border: '1px solid rgba(255,255,255,0.1)'
+  },
+  contentText: {
+    whiteSpace: 'pre-wrap',
+    lineHeight: '1.6'
+  },
+  optionsContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '15px',
+    marginTop: '30px'
+  },
+  optionButton: {
+    padding: '15px 20px',
+    background: 'rgba(33,150,243,0.2)',
+    border: '1px solid rgba(33,150,243,0.3)',
+    borderRadius: '8px',
+    color: '#fff',
+    cursor: 'pointer',
+    transition: 'all 0.3s ease',
+    '&:hover': {
+      background: 'rgba(33,150,243,0.3)',
+    }
+  },
+  feedbackBox: {
+    background: 'rgba(0,0,0,0.8)',
+    padding: '20px',
+    borderRadius: '10px',
+    marginTop: '20px',
+    border: '1px solid rgba(255,255,255,0.1)',
+    color: '#ffffff',
+    fontSize: '18px',
+    textAlign: 'center',
+    boxShadow: '0 0 20px rgba(0,0,0,0.5)',
+  },
+  endScreen: {
+    textAlign: 'center',
+    padding: '40px',
+    background: 'rgba(0,0,0,0.7)',
+    borderRadius: '15px',
+    border: '1px solid rgba(255,255,255,0.1)',
+  },
+  score: {
+    fontSize: '24px',
+    margin: '20px 0',
+    color: '#2196f3'
+  },
+  feedback: {
+    fontSize: '18px',
+    marginBottom: '30px',
+    lineHeight: '1.6'
+  },
+  buttonContainer: {
+    marginTop: '20px'
+  },
+  button: {
+    padding: '15px 30px',
+    background: '#2196f3',
+    border: 'none',
+    borderRadius: '8px',
+    color: '#fff',
+    fontSize: '16px',
+    cursor: 'pointer',
+    transition: 'all 0.3s ease',
+    '&:hover': {
+      background: '#1976d2'
+    }
   },
   infoContainer: {
     background: 'rgba(0,0,0,0.7)',
@@ -699,7 +644,7 @@ const styles = {
     borderRadius: '10px',
     marginTop: '20px',
     border: '1px solid rgba(255,255,255,0.1)',
-  },
+  }
 };
 
-export default PhishingSimulatorPage; 
+export default BaitingSimulatorPage; 

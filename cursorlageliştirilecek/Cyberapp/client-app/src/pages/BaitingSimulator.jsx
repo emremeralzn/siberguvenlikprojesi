@@ -166,6 +166,14 @@ const BaitingSimulator = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
+            Testi Başlat
+          </motion.button>
+          <motion.button
+            onClick={() => navigate('/simulators/baiting/simulator')}
+            className="button"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
             Simülasyonu Başlat
           </motion.button>
         </motion.div>

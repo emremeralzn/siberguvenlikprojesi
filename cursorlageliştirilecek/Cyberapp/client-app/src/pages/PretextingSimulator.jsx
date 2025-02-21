@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { motion } from 'framer-motion';
@@ -6,10 +6,38 @@ import { motion } from 'framer-motion';
 const PretextingSimulator = () => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [selectedOption, setSelectedOption] = useState(null);
 
   if (!user) {
     return <Navigate to="/login" replace />;
   }
+
+  const handleChoice = (option) => {
+    if (selectedOption) return;
+    
+    setSelectedOption(option);
+    setShowOptions(false);
+    setCurrentFeedback(option.feedback);
+    setShowFeedback(true);
+
+    setTimeout(() => {
+      const newScore = score + option.scoreImpact;
+      setScore(newScore);
+      setShowFeedback(false);
+      
+      setShowTitle(true);
+      setShowDescription(false);
+      setShowContent(false);
+      setShowOptions(false);
+      setSelectedOption(null);
+
+      if (currentScene === scenarios.length - 1 || newScore <= 0) {
+        setGameOver(true);
+      } else {
+        setCurrentScene(currentScene + 1);
+      }
+    }, 3000);
+  };
 
   return (
     <div className="page">
@@ -61,6 +89,14 @@ const PretextingSimulator = () => {
 
           <motion.button
             onClick={() => navigate('/simulators/pretexting/test')}
+            className="button"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Testi Başlat
+          </motion.button>
+          <motion.button
+            onClick={() => navigate('/simulators/pretexting/simulator')}
             className="button"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

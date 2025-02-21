@@ -21,6 +21,9 @@ import VishingTestPage from './pages/VishingTestPage';
 import TipsPage from './pages/TipsPage';
 import PhishingSimulatorPage from './pages/PhishingSimulatorPage';
 import SimulatorsPage from './pages/SimulatorsPage';
+import BaitingSimulatorPage from './pages/BaitingSimulatorPage';
+import PretextingSimulatorPage from './pages/PretextingSimulatorPage';
+import VishingSimulatorPage from './pages/VishingSimulatorPage';
 function App() {
   return (
     <AuthProvider>
@@ -43,14 +46,16 @@ function App() {
 
           <Route path="/simulators/baiting" element={<BaitingSimulator />} />
           <Route path="/simulators/baiting/test" element={<BaitingTestPage />} />
+          <Route path="/simulators/baiting/simulator" element={<BaitingSimulatorPage />} />
+
 
           <Route path="/simulators/pretexting" element={<PretextingSimulator />} />
           <Route path="/simulators/pretexting/test" element={<PretextingTestPage />} />
+          <Route path="/simulators/pretexting/simulator" element={<PretextingSimulatorPage />} />
 
           <Route path="/simulators/vishing" element={<VishingSimulator />} />
           <Route path="/simulators/vishing/test" element={<VishingTestPage />} />
-
-          <Route path="/simulators/pretexting/test" element={<PretextingTestPage />} />
+          <Route path="/simulators/vishing/simulator" element={<VishingSimulatorPage />} />
         </Routes>
         <Footer footerData={{/* footer verilerini buraya ekleyebilirsiniz */}} />  {/* Footer'ı burada ekliyoruz */}
       </Router>
