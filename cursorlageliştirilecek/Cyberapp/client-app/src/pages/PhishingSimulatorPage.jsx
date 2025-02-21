@@ -3,6 +3,8 @@ import { Navigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import typingSound from '../assets/sounds/typing.mp3';
+import SimulationVideo from '../Components/SimulationVideo';
+import BackgroundMusic from '../Components/BackgroundMusic';
 
 const TypewriterText = ({ text, onComplete, delay = 0, volume }) => {
   const [displayedText, setDisplayedText] = useState('');
@@ -59,6 +61,22 @@ const PhishingSimulatorPage = () => {
   const [showFeedback, setShowFeedback] = useState(false);
   const [currentFeedback, setCurrentFeedback] = useState('');
   const [volume, setVolume] = useState(0.2);
+  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
+  const [musicVolume, setMusicVolume] = useState(0.1);
+  const videoMounted = useRef(false);
+
+  useEffect(() => {
+    if (isStarted) {
+      videoMounted.current = true;
+      setIsMusicPlaying(true);
+    }
+  }, [isStarted]);
+
+  useEffect(() => {
+    return () => {
+      setIsMusicPlaying(false);
+    };
+  }, []);
 
   if (!user) {
     return <Navigate to="/login" replace />;
@@ -71,6 +89,7 @@ const PhishingSimulatorPage = () => {
         animate={{ opacity: 1 }}
         style={styles.container}
       >
+        <BackgroundMusic isPlaying={isMusicPlaying} volume={musicVolume} />
         <div style={styles.overlay}></div>
         <div style={styles.content}>
           <motion.div 
@@ -329,6 +348,7 @@ const PhishingSimulatorPage = () => {
       animate={{ opacity: 1 }}
       style={styles.container}
     >
+      <BackgroundMusic isPlaying={isMusicPlaying} volume={musicVolume} />
       <div style={styles.overlay}></div>
       <div style={styles.content}>
         {!gameOver ? (
@@ -338,6 +358,26 @@ const PhishingSimulatorPage = () => {
             animate={{ opacity: 1 }}
             style={styles.gameContainer}
           >
+            {videoMounted.current && <SimulationVideo />}
+            
+            <div style={styles.musicControl}>
+              <button 
+                onClick={() => setIsMusicPlaying(!isMusicPlaying)}
+                style={styles.musicButton}
+              >
+                {isMusicPlaying ? '🔊' : '🔇'}
+              </button>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.1"
+                value={musicVolume}
+                onChange={(e) => setMusicVolume(parseFloat(e.target.value))}
+                style={styles.volumeSlider}
+              />
+            </div>
+
             <div style={styles.scenarioTitle}>
               {showTitle && (
                 <h3>
@@ -699,6 +739,59 @@ const styles = {
     borderRadius: '10px',
     marginTop: '20px',
     border: '1px solid rgba(255,255,255,0.1)',
+  },
+  musicControl: {
+    position: 'absolute',
+    top: '20px',
+    right: '20px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+    background: 'rgba(0, 0, 0, 0.3)',
+    padding: '10px',
+    borderRadius: '8px',
+  },
+  musicButton: {
+    background: 'none',
+    border: 'none',
+    color: '#fff',
+    fontSize: '20px',
+    cursor: 'pointer',
+    padding: '5px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    transition: 'transform 0.2s',
+    '&:hover': {
+      transform: 'scale(1.1)',
+    },
+  },
+  volumeSlider: {
+    width: '100px',
+    height: '4px',
+    WebkitAppearance: 'none',
+    appearance: 'none',
+    background: 'rgba(255, 255, 255, 0.2)',
+    outline: 'none',
+    borderRadius: '2px',
+    cursor: 'pointer',
+    '&::-webkit-slider-thumb': {
+      WebkitAppearance: 'none',
+      appearance: 'none',
+      width: '12px',
+      height: '12px',
+      background: '#2196f3',
+      borderRadius: '50%',
+      cursor: 'pointer',
+    },
+    '&::-moz-range-thumb': {
+      width: '12px',
+      height: '12px',
+      background: '#2196f3',
+      borderRadius: '50%',
+      cursor: 'pointer',
+      border: 'none',
+    },
   },
 };
 
