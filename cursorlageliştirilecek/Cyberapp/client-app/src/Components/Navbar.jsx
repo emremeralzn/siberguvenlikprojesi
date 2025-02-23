@@ -118,6 +118,11 @@ const Navbar = () => {
             İletişim
           </Link>
         </motion.li>
+        <motion.li {...linkHoverEffect}>
+          <Link to="/resources" style={styles.link}>
+            Kaynaklar
+          </Link>
+        </motion.li>
       </ul>
 
       {/* Kullanıcı Profil/Giriş/Kayıt Butonları */}
