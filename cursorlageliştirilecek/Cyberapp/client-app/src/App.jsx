@@ -59,6 +59,8 @@ function App() {
           <Route path="/simulators/vishing/test" element={<VishingTestPage />} />
           <Route path="/simulators/vishing/simulator" element={<VishingSimulatorPage />} />
 
+          {/* <Route path="/*" element={<NotFoundPage />} /> */}
+          {/* İLERDE YAPILACAK 404NOTFOUNDPAGESİ OLUSTUR */}
         </Routes>
         <Footer footerData={{/* footer verilerini buraya ekleyebilirsiniz */}} />  {/* Footer'ı burada ekliyoruz */}
       </Router>

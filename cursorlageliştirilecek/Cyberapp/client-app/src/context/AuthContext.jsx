@@ -6,9 +6,14 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-    // localStorage'dan kullanıcı bilgisini al
-    const savedUser = localStorage.getItem('user');
-    return savedUser ? JSON.parse(savedUser) : null;
+    try {
+      // localStorage'dan kullanıcı bilgisini al
+      const savedUser = localStorage.getItem('user');
+      return savedUser && savedUser !== 'undefined' ? JSON.parse(savedUser) : null;
+    } catch (error) {
+      console.error('Kullanıcı bilgisi okunurken hata oluştu:', error);
+      return null;
+    }
   });
 
   const login = async (email, password) => {

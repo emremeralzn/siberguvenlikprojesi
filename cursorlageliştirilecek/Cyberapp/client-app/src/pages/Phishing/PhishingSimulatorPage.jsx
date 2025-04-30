@@ -766,33 +766,6 @@ const styles = {
       transform: 'scale(1.1)',
     },
   },
-  volumeSlider: {
-    width: '100px',
-    height: '4px',
-    WebkitAppearance: 'none',
-    appearance: 'none',
-    background: 'rgba(255, 255, 255, 0.2)',
-    outline: 'none',
-    borderRadius: '2px',
-    cursor: 'pointer',
-    '&::-webkit-slider-thumb': {
-      WebkitAppearance: 'none',
-      appearance: 'none',
-      width: '12px',
-      height: '12px',
-      background: '#2196f3',
-      borderRadius: '50%',
-      cursor: 'pointer',
-    },
-    '&::-moz-range-thumb': {
-      width: '12px',
-      height: '12px',
-      background: '#2196f3',
-      borderRadius: '50%',
-      cursor: 'pointer',
-      border: 'none',
-    },
-  },
 };
 
 export default PhishingSimulatorPage; 
