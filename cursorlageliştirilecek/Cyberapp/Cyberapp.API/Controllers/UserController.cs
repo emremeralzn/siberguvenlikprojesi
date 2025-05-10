@@ -91,6 +91,22 @@ namespace Cyberapp.API.Controllers
             await _mediator.Send(command);
             return Ok();
         }
+        [HttpGet("{userId:int}/testLogs")]
+        public async Task<IActionResult> GetUserTestLogs(int userId)
+        {
+            var logs = await _mediator.Send(new DetailTestLogs.Query { UserId = userId });
+            return Ok(logs);
+        }
+
+        [HttpPost("{userId:int}/testLogs")]
+        public async Task<IActionResult> AddUserTestLog(int userId, [FromBody] AddTestLog.Command command)
+        {
+            if (userId != command.UserId)
+                return BadRequest("UserId in the path does not match the body.");
+
+            await _mediator.Send(command);
+            return Ok();
+        }
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] Register.Command registerDto)
         {

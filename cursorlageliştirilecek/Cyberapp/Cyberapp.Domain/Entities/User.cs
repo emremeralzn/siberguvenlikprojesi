@@ -25,6 +25,7 @@ namespace Cyberapp.Domain.Entities
         public DateTime? VerificationTimestamp { get; set; } // Doğrulama zamanı
 
         public ICollection<SimulationLog> SimulationLogs { get; set; } = new List<SimulationLog>();
+        public ICollection<TestLog> TestLogs { get; set; } = new List<TestLog>();
 
         // Skor güncelleme metodu
         public void UpdateScore(int newScore)
