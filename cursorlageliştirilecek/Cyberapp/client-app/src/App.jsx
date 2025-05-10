@@ -19,6 +19,7 @@ import PretextingTestPage from './pages/Pretexting/PretextingTestPage';
 import VishingSimulator from './pages/Vishing/VishingSimulator';
 import VishingTestPage from './pages/Vishing/VishingTestPage';
 import TipsPage from './pages/Common/TipsPage';
+import TipDetailPage from './pages/Common/TipDetailPage';
 import PhishingSimulatorPage from './pages/Phishing/PhishingSimulatorPage';
 import SimulatorsPage from './pages/Common/SimulatorsPage';
 import BaitingSimulatorPage from './pages/Baiting/BaitingSimulatorPage';
@@ -39,6 +40,7 @@ function App() {
           <Route path="/userpanel" element={<UserPanel />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/tips" element={<TipsPage />} />
+          <Route path="/documentation/:category" element={<TipDetailPage />} />
           <Route path="/resources" element={<Resources />} />
           <Route path="/simulators" element={<SimulatorsPage />} />
 

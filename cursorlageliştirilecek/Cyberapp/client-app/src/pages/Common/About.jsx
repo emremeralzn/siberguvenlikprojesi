@@ -33,6 +33,12 @@ const About = () => {
       description: "Projenin akademik danışmanı ve rehberidir.",
       image: "static/merve_yildirim.jpeg",
     },
+    {
+      name: "Mehmet Said Nur Yağmahan",
+      role: "Danışman Hocamız",
+      description: "Projenin akademik danışmanı ve rehberidir.",
+      image: "static/saidhoca.jpeg",
+    },
     
   ];
 

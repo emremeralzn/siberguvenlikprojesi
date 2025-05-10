@@ -25,6 +25,7 @@
     animation: fadeInOut 6s ease-in-out; /* 6 saniyelik geçiş */
   }
   
+  
   .content {
     position: absolute;
     top: 50%;

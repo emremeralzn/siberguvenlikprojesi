@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaLock, FaShieldAlt, FaUserSecret, FaWifi, FaMobile, FaEnvelope } from 'react-icons/fa';
+import { FaLock, FaShieldAlt, FaUserSecret, FaWifi, FaMobile, FaEnvelope, FaDatabase, FaCloud, FaCode, FaGlobe } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const TipsPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const navigate = useNavigate();
 
   const categories = [
     { id: 'all', name: 'Tümü', icon: <FaShieldAlt /> },
@@ -11,7 +13,11 @@ const TipsPage = () => {
     { id: 'privacy', name: 'Gizlilik', icon: <FaUserSecret /> },
     { id: 'network', name: 'Ağ Güvenliği', icon: <FaWifi /> },
     { id: 'mobile', name: 'Mobil Güvenlik', icon: <FaMobile /> },
-    { id: 'email', name: 'E-posta Güvenliği', icon: <FaEnvelope /> }
+    { id: 'email', name: 'E-posta Güvenliği', icon: <FaEnvelope /> },
+    { id: 'database', name: 'Veritabanı Güvenliği', icon: <FaDatabase /> },
+    { id: 'cloud', name: 'Bulut Güvenliği', icon: <FaCloud /> },
+    { id: 'code', name: 'Kod Güvenliği', icon: <FaCode /> },
+    { id: 'web', name: 'Web Güvenliği', icon: <FaGlobe /> }
   ];
 
   const tips = [
@@ -26,7 +32,36 @@ const TipsPage = () => {
         'Şifre yöneticisi kullanarak şifrelerinizi güvenle saklayın',
         'İki faktörlü doğrulamayı tüm hesaplarınızda aktifleştirin',
         'Şifrelerinizi 3-6 ayda bir düzenli olarak değiştirin'
-      ]
+      ],
+      documentationUrl: '/documentation/password-security'
+    },
+    {
+      category: 'passwords',
+      title: 'Şifre Yönetimi Stratejileri',
+      description: 'Şifrelerinizi güvenli bir şekilde yönetmek için etkili stratejiler ve araçlar.',
+      steps: [
+        'Şifre yöneticisi kullanarak tüm şifrelerinizi güvenle saklayın',
+        'İki faktörlü doğrulama (2FA) kullanın',
+        'Şifrelerinizi düzenli olarak değiştirin',
+        'Şifrelerinizi asla paylaşmayın',
+        'Güvenlik sorularınızı güçlü tutun',
+        'Şifrelerinizi yazılı olarak saklamayın'
+      ],
+      documentationUrl: '/documentation/password-security'
+    },
+    {
+      category: 'passwords',
+      title: 'Şifre Güvenliği En İyi Uygulamaları',
+      description: 'Şifre güvenliği için endüstri standartları ve en iyi uygulamalar.',
+      steps: [
+        'Her hesap için benzersiz şifreler kullanın',
+        'Şifrelerinizi düzenli olarak değiştirin',
+        'Şifre yöneticisi kullanın',
+        'İki faktörlü doğrulama kullanın',
+        'Güvenlik sorularınızı güçlü tutun',
+        'Şifrelerinizi asla paylaşmayın'
+      ],
+      documentationUrl: '/documentation/password-security'
     },
     {
       category: 'privacy',
@@ -39,7 +74,8 @@ const TipsPage = () => {
         'Çevrimiçi profil bilgilerinizi minimum düzeyde tutun',
         'Tanımadığınız kişilerden gelen arkadaşlık isteklerini kabul etmeyin',
         'Üçüncü taraf uygulama izinlerini sınırlayın'
-      ]
+      ],
+      documentationUrl: '/documentation/privacy-security'
     },
     {
       category: 'network',
@@ -53,7 +89,8 @@ const TipsPage = () => {
         'Misafir ağı oluşturarak ana ağınızı koruyun',
         'Firewall ayarlarınızı düzenli kontrol edin',
         'IoT cihazlarınız için ayrı bir ağ segmenti oluşturun'
-      ]
+      ],
+      documentationUrl: '/documentation/network-security'
     },
     {
       category: 'mobile',
@@ -65,10 +102,51 @@ const TipsPage = () => {
         'Sadece resmi uygulama mağazalarından indirme yapın',
         'Uygulama izinlerini düzenli kontrol edin',
         'Cihaz şifrelemeyi aktifleştirin',
-        'Güvenilir anti-virüs uygulaması kullanın',
-        'Önemli verilerinizi düzenli yedekleyin',
-        'Uzaktan silme özelliğini aktifleştirin'
-      ]
+        'Güvenilir anti-virüs uygulaması kullanın'
+      ],
+      documentationUrl: '/documentation/mobile-security'
+    },
+    {
+      category: 'mobile',
+      title: 'Mobil Uygulama Güvenliği',
+      description: 'Mobil uygulamaların güvenli kullanımı için önemli ipuçları.',
+      steps: [
+        'Uygulamaları sadece resmi mağazalardan indirin',
+        'Uygulama izinlerini düzenli kontrol edin',
+        'Uygulamaları güncel tutun',
+        'Gereksiz uygulamaları kaldırın',
+        'Uygulama verilerini düzenli yedekleyin',
+        'Uygulama içi satın alımları şifre korumalı yapın'
+      ],
+      documentationUrl: '/documentation/mobile-security'
+    },
+    {
+      category: 'mobile',
+      title: 'Mobil Veri Güvenliği',
+      description: 'Mobil cihazlarda veri güvenliği için temel önlemler.',
+      steps: [
+        'Verilerinizi düzenli yedekleyin',
+        'Hassas verileri şifreleyin',
+        'Veri paylaşımını sınırlayın',
+        'Veri silme özelliğini aktif edin',
+        'Veri izleme araçlarını kullanın',
+        'Veri yedekleme stratejileri oluşturun'
+      ],
+      documentationUrl: '/documentation/mobile-security'
+    },
+    {
+      category: 'mobile',
+      title: 'Mobil Ağ Güvenliği',
+      description: 'Mobil cihazlarda ağ güvenliği için önemli adımlar.',
+      steps: [
+        'Güvenli Wi-Fi ağlarını kullanın',
+        'VPN kullanarak internet trafiğinizi şifreleyin',
+        'Otomatik Wi-Fi bağlantılarını kapatın',
+        'Ağ güvenlik ayarlarını kontrol edin',
+        'Güvenilmeyen ağlarda hassas işlem yapmayın',
+        'Ağ izleme araçlarını kullanın'
+      ],
+      documentationUrl: '/documentation/mobile-security'
     },
     {
       category: 'email',
@@ -83,33 +161,8 @@ const TipsPage = () => {
         'E-posta şifrenizi düzenli değiştirin',
         'Phishing e-postalarına karşı dikkatli olun',
         'E-posta imzalama ve şifreleme kullanın'
-      ]
-    },
-    {
-      category: 'network',
-      title: 'Güvenli İnternet Kullanımı',
-      description: 'Günlük internet kullanımınızda dikkat etmeniz gereken güvenlik önlemleri.',
-      steps: [
-        'HTTPS protokolü kullanan siteleri tercih edin',
-        'Pop-up reklamları engelleyin',
-        'Tarayıcı güvenlik ayarlarını optimize edin',
-        'Güvenilir SSL sertifikası olmayan sitelere giriş yapmayın',
-        'İndirdiğiniz dosyaları virüs taramasından geçirin',
-        'Çerezleri ve tarayıcı geçmişini düzenli temizleyin'
-      ]
-    },
-    {
-      category: 'mobile',
-      title: 'Mobil Uygulama Güvenliği',
-      description: 'Mobil uygulamaların güvenli kullanımı için öneriler.',
-      steps: [
-        'Uygulamaları kullanmadığınızda arka planda çalışmasını engelleyin',
-        'Gereksiz uygulamaları kaldırın',
-        'Uygulama içi satın alımları şifre korumalı yapın',
-        'Konum izni isteyen uygulamaları sınırlayın',
-        'Otomatik uygulama güncellemelerini aktifleştirin',
-        'Uygulama yorumlarını ve güvenlik değerlendirmelerini kontrol edin'
-      ]
+      ],
+      documentationUrl: '/documentation/email-security'
     },
     {
       category: 'email',
@@ -123,6 +176,118 @@ const TipsPage = () => {
         'Otomatik e-posta yönlendirmelerini kapatın',
         'Şirket verilerini kişisel e-postaya iletmeyin'
       ]
+    },
+    {
+      category: 'database',
+      title: 'Veritabanı Güvenliği Temelleri',
+      description: 'Veritabanı güvenliği için temel prensipler ve uygulamalar.',
+      steps: [
+        'Güçlü kimlik doğrulama kullanın',
+        'Erişim kontrollerini sıkılaştırın',
+        'Verileri şifreleyerek saklayın',
+        'Düzenli yedekleme yapın',
+        'Log yönetimini aktif edin',
+        'Güvenlik duvarı kullanın'
+      ],
+      documentationUrl: '/documentation/database-security'
+    },
+    {
+      category: 'database',
+      title: 'SQL Enjeksiyon Koruması',
+      description: 'SQL enjeksiyon saldırılarına karşı korunma yöntemleri.',
+      steps: [
+        'Parametreli sorgular kullanın',
+        'Input validasyonu yapın',
+        'Hata mesajlarını gizleyin',
+        'Minimum yetki prensibini uygulayın',
+        'Stored procedure kullanın',
+        'ORM araçlarını tercih edin'
+      ],
+      documentationUrl: '/documentation/database-security'
+    },
+    {
+      category: 'cloud',
+      title: 'Bulut Güvenliği Temelleri',
+      description: 'Bulut ortamında güvenlik için temel prensipler.',
+      steps: [
+        'IAM politikalarını sıkılaştırın',
+        'Veri şifreleme kullanın',
+        'Ağ güvenliğini sağlayın',
+        'Uyumluluk standartlarını takip edin',
+        'Güvenlik izleme yapın',
+        'Düzenli güvenlik denetimi yapın'
+      ],
+      documentationUrl: '/documentation/cloud-security'
+    },
+    {
+      category: 'cloud',
+      title: 'Bulut Veri Güvenliği',
+      description: 'Bulut ortamında veri güvenliği için önemli adımlar.',
+      steps: [
+        'Veri sınıflandırması yapın',
+        'Şifreleme kullanın',
+        'Erişim kontrollerini sıkılaştırın',
+        'Veri yedekleme stratejileri oluşturun',
+        'Veri silme politikaları belirleyin',
+        'Veri izleme araçlarını kullanın'
+      ],
+      documentationUrl: '/documentation/cloud-security'
+    },
+    {
+      category: 'code',
+      title: 'Güvenli Kod Yazımı',
+      description: 'Güvenli kod yazımı için temel prensipler ve uygulamalar.',
+      steps: [
+        'OWASP standartlarına uyun',
+        'Kod inceleme süreçleri uygulayın',
+        'Güvenlik testleri yapın',
+        'Bağımlılıkları güncel tutun',
+        'Hata yönetimi stratejileri geliştirin',
+        'Güvenli kütüphaneler kullanın'
+      ],
+      documentationUrl: '/documentation/code-security'
+    },
+    {
+      category: 'code',
+      title: 'DevSecOps Uygulamaları',
+      description: 'Güvenliği DevOps sürecine entegre etme yöntemleri.',
+      steps: [
+        'CI/CD pipeline\'a güvenlik entegre edin',
+        'Otomatik güvenlik testleri yapın',
+        'Güvenlik taramalarını otomatize edin',
+        'Güvenlik izleme araçları kullanın',
+        'Güvenlik raporlama sistemleri kurun',
+        'Güvenlik eğitimleri verin'
+      ],
+      documentationUrl: '/documentation/code-security'
+    },
+    {
+      category: 'web',
+      title: 'Web Uygulama Güvenliği',
+      description: 'Web uygulamaları için temel güvenlik önlemleri.',
+      steps: [
+        'SSL/TLS sertifikaları kullanın',
+        'XSS ve CSRF koruması sağlayın',
+        'Güvenli oturum yönetimi uygulayın',
+        'Güvenlik başlıklarını yapılandırın',
+        'Düzenli güvenlik taramaları yapın',
+        'WAF kullanın'
+      ],
+      documentationUrl: '/documentation/web-security'
+    },
+    {
+      category: 'web',
+      title: 'Web Sunucu Güvenliği',
+      description: 'Web sunucuları için güvenlik önlemleri ve en iyi uygulamalar.',
+      steps: [
+        'Güvenlik duvarı yapılandırın',
+        'Düzenli güncelleme yapın',
+        'Gereksiz servisleri kapatın',
+        'Log yönetimini aktif edin',
+        'DDoS koruması kullanın',
+        'Güvenlik izleme yapın'
+      ],
+      documentationUrl: '/documentation/web-security'
     }
   ];
 
@@ -130,12 +295,28 @@ const TipsPage = () => {
     ? tips 
     : tips.filter(tip => tip.category === selectedCategory);
 
+  const handleTipClick = (documentationUrl) => {
+    navigate(documentationUrl);
+  };
+
+  const categoryImages = {
+    passwords: 'https://cdn-icons-png.flaticon.com/512/3064/3064197.png',
+    privacy: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png',
+    network: 'https://cdn-icons-png.flaticon.com/512/1048/1048953.png',
+    mobile: 'https://cdn-icons-png.flaticon.com/512/747/747376.png',
+    email: 'https://cdn-icons-png.flaticon.com/512/561/561127.png',
+    database: 'https://cdn-icons-png.flaticon.com/512/2721/2721297.png',
+    cloud: 'https://cdn-icons-png.flaticon.com/512/4144/4144396.png',
+    code: 'https://cdn-icons-png.flaticon.com/512/2721/2721290.png',
+    web: 'https://cdn-icons-png.flaticon.com/512/2721/2721298.png',
+  };
+
   return (
     <div style={styles.container}>
       <div style={styles.slider}>
-        <h2 style={styles.sliderTitle}>Siber Güvenlik İpuçları</h2>
+        <h2 style={styles.sliderTitle}>Siber Güvenlik Dökümantasyonu</h2>
         <p style={styles.sliderText}>
-          Güvenliğinizi artırmak için en iyi uygulamaları ve ipuçlarını öğrenin
+          Güvenliğinizi artırmak için en iyi uygulamaları ve dökümantasyonları öğrenin
         </p>
       </div>
 
@@ -169,7 +350,13 @@ const TipsPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
               whileHover={{ scale: 1.02 }}
+              onClick={() => handleTipClick(tip.documentationUrl)}
             >
+              <img
+                src={categoryImages[tip.category]}
+                alt="Kategori görseli"
+                style={styles.cardImage}
+              />
               <h3 style={styles.tipTitle}>{tip.title}</h3>
               <p style={styles.tipDescription}>{tip.description}</p>
               <ul style={styles.stepsList}>
@@ -179,6 +366,12 @@ const TipsPage = () => {
                   </li>
                 ))}
               </ul>
+              <button
+                style={styles.detailButton}
+                onClick={e => { e.stopPropagation(); handleTipClick(tip.documentationUrl); }}
+              >
+                Detayı Gör
+              </button>
             </motion.div>
           ))}
         </div>
@@ -250,6 +443,18 @@ const styles = {
     padding: '25px',
     boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
     border: '1px solid rgba(30, 144, 255, 0.2)',
+    position: 'relative',
+    paddingBottom: '70px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  cardImage: {
+    width: '60px',
+    height: '60px',
+    objectFit: 'contain',
+    marginBottom: '15px',
+    marginTop: '5px',
   },
   tipTitle: {
     fontSize: '24px',
@@ -280,6 +485,34 @@ const styles = {
       left: 0,
       color: '#1e90ff',
     },
+  },
+  readMore: {
+    marginTop: '20px',
+    color: '#1e90ff',
+    cursor: 'pointer',
+    textAlign: 'right',
+    fontSize: '14px',
+    fontWeight: 'bold',
+    '&:hover': {
+      textDecoration: 'underline'
+    }
+  },
+  detailButton: {
+    position: 'absolute',
+    right: '20px',
+    bottom: '20px',
+    backgroundColor: '#1e90ff',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '20px',
+    padding: '10px 22px',
+    fontSize: '15px',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    boxShadow: '0 2px 8px rgba(30,144,255,0.15)',
+    transition: 'background 0.2s',
+    zIndex: 2,
+    marginTop: '10px',
   },
 };
 

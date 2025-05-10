@@ -109,7 +109,7 @@ const Navbar = () => {
         {/* Tips Linki */}
         <motion.li {...linkHoverEffect}>
           <Link to="/tips" style={styles.link}>
-            İpuçları
+            Dökümantasyon
           </Link>
         </motion.li>
 

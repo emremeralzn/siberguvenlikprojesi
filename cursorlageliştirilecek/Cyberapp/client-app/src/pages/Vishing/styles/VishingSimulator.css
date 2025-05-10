@@ -91,6 +91,7 @@
   transform: scale(1.05);
 }
 
+/* Responsive Design */
 @media (max-width: 768px) {
   .contentContainer {
     padding: 20px;
