@@ -12,3 +12,7 @@ export const fetchUserSimulationLogs = async (userId) => {
   const response = await axios.get(`${BASE_URL}/user/${userId}/simulationLogs`);
   return response.data;
 };
+export const fetchUserTestLogs = async (userId) => {
+  const response = await axios.get(`${BASE_URL}/user/${userId}/TestLogs`);
+  return response.data;
+};

@@ -147,9 +147,13 @@ const Home = () => {
               <p>
                 Gerçekçi senaryolarla pretexting saldırılarını deneyimleyin ve korunmayı öğrenin.
               </p>
-              <Link to="/simulators/pretexting" className="cardButton">
-               Başla
-              </Link>
+              {user ? (
+                <Link to="/simulators/pretexting" className="cardButton">
+                  Başla
+                </Link>
+              ) : (
+                <p className="warning">Giriş yapmanız gerekiyor.</p>
+              )}
             </div>
           </div>
         </motion.div>

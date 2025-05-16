@@ -313,12 +313,30 @@ const TipsPage = () => {
 
   return (
     <div style={styles.container}>
-      <div style={styles.slider}>
-        <h2 style={styles.sliderTitle}>Siber Güvenlik Dökümantasyonu</h2>
-        <p style={styles.sliderText}>
+      {/* Hero Section */}
+      <motion.div 
+        style={styles.slider}
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+      >
+        <motion.h2 
+          style={styles.sliderTitle}
+          initial={{ scale: 0.8 }}
+          animate={{ scale: 1 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+        >
+          Siber Güvenlik Dökümantasyonu
+        </motion.h2>
+        <motion.p 
+          style={styles.sliderText}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+        >
           Güvenliğinizi artırmak için en iyi uygulamaları ve dökümantasyonları öğrenin
-        </p>
-      </div>
+        </motion.p>
+      </motion.div>
 
       {/* Kategori Seçimi */}
       <div style={styles.content}>
@@ -393,16 +411,22 @@ const styles = {
     textAlign: "center",
     padding: "50px 0",
     marginBottom: "20px",
+    borderRadius: "15px",
+    background: "linear-gradient(135deg, #141e30 0%, #243b55 100%)",
+    boxShadow: "0 4px 30px rgba(0, 0, 0, 0.3)",
   },
   sliderTitle: {
     fontSize: "2.5rem",
     fontWeight: "bold",
     color: "#58a6ff",
+    marginBottom: "15px",
+    textShadow: "2px 2px 4px rgba(0,0,0,0.3)",
   },
   sliderText: {
     fontSize: "1.2rem",
     color: "#8b949e",
-    marginTop: "10px",
+    maxWidth: "600px",
+    margin: "0 auto",
   },
   content: {
     margin: "0 auto",
@@ -415,6 +439,10 @@ const styles = {
     gap: '15px',
     flexWrap: 'wrap',
     marginBottom: '40px',
+    padding: '20px',
+    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    borderRadius: '15px',
+    backdropFilter: 'blur(10px)',
   },
   categoryButton: {
     padding: '12px 24px',
@@ -427,9 +455,16 @@ const styles = {
     gap: '8px',
     fontSize: '16px',
     transition: 'all 0.3s ease',
+    background: 'rgba(30, 144, 255, 0.1)',
+    backdropFilter: 'blur(5px)',
+    '&:hover': {
+      background: 'rgba(30, 144, 255, 0.2)',
+      transform: 'translateY(-2px)',
+    },
   },
   categoryIcon: {
     fontSize: '20px',
+    color: '#1e90ff',
   },
   tipsGrid: {
     display: 'grid',
@@ -448,6 +483,13 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    transition: 'all 0.3s ease',
+    backdropFilter: 'blur(10px)',
+    '&:hover': {
+      transform: 'translateY(-5px)',
+      boxShadow: '0 8px 30px rgba(30, 144, 255, 0.2)',
+      border: '1px solid rgba(30, 144, 255, 0.4)',
+    },
   },
   cardImage: {
     width: '60px',
@@ -455,11 +497,19 @@ const styles = {
     objectFit: 'contain',
     marginBottom: '15px',
     marginTop: '5px',
+    filter: 'drop-shadow(0 0 10px rgba(30, 144, 255, 0.3))',
+    transition: 'all 0.3s ease',
+    '&:hover': {
+      transform: 'scale(1.1)',
+    },
   },
   tipTitle: {
     fontSize: '24px',
     color: '#1e90ff',
     marginBottom: '15px',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    textShadow: '0 2px 4px rgba(0,0,0,0.2)',
   },
   tipDescription: {
     fontSize: '16px',
@@ -467,10 +517,12 @@ const styles = {
     opacity: 0.8,
     marginBottom: '20px',
     lineHeight: '1.6',
+    textAlign: 'center',
   },
   stepsList: {
     listStyle: 'none',
     padding: 0,
+    width: '100%',
   },
   step: {
     padding: '8px 0',
@@ -479,23 +531,17 @@ const styles = {
     fontSize: '14px',
     color: '#ffffff',
     opacity: 0.9,
+    transition: 'all 0.3s ease',
+    '&:hover': {
+      opacity: 1,
+      transform: 'translateX(5px)',
+    },
     '&:before': {
       content: '"•"',
       position: 'absolute',
       left: 0,
       color: '#1e90ff',
     },
-  },
-  readMore: {
-    marginTop: '20px',
-    color: '#1e90ff',
-    cursor: 'pointer',
-    textAlign: 'right',
-    fontSize: '14px',
-    fontWeight: 'bold',
-    '&:hover': {
-      textDecoration: 'underline'
-    }
   },
   detailButton: {
     position: 'absolute',
@@ -510,9 +556,14 @@ const styles = {
     fontWeight: 'bold',
     cursor: 'pointer',
     boxShadow: '0 2px 8px rgba(30,144,255,0.15)',
-    transition: 'background 0.2s',
+    transition: 'all 0.3s ease',
     zIndex: 2,
     marginTop: '10px',
+    '&:hover': {
+      backgroundColor: '#187bcd',
+      transform: 'translateY(-2px)',
+      boxShadow: '0 4px 12px rgba(30,144,255,0.3)',
+    },
   },
 };
 

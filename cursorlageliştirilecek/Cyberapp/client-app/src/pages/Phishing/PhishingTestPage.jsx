@@ -88,7 +88,7 @@ const PhishingTestPage = () => {
         attemptedOn: new Date().toISOString()
       };
 
-      await fetch(`http://localhost:5079/api/user/${user.id}/simulationLogs`, {
+      await fetch(`http://localhost:5079/api/user/${user.id}/TestLogs`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
