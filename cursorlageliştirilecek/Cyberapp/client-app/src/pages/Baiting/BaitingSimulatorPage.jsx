@@ -1,8 +1,9 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import typingSound from '../../assets/sounds/typing.mp3';
+import { Button, Dialog, DialogTitle, DialogContent, DialogActions, Typography } from '@mui/material';
 
 const TypewriterText = ({ text, onComplete, delay = 0, volume }) => {
   const [displayedText, setDisplayedText] = useState('');
@@ -45,7 +46,8 @@ const TypewriterText = ({ text, onComplete, delay = 0, volume }) => {
 };
 
 const BaitingSimulatorPage = () => {
-  const { user } = useContext(AuthContext);
+  const { user, updateScore } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [isStarted, setIsStarted] = useState(false);
   const [currentScene, setCurrentScene] = useState(0);
   const [score, setScore] = useState(100);
@@ -57,6 +59,10 @@ const BaitingSimulatorPage = () => {
   const [showFeedback, setShowFeedback] = useState(false);
   const [currentFeedback, setCurrentFeedback] = useState('');
   const [volume, setVolume] = useState(0.2);
+  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
+  const [musicVolume, setMusicVolume] = useState(0.1);
+  const videoMounted = useRef(false);
+  const [showExitDialog, setShowExitDialog] = useState(false);
 
   if (!user) {
     return <Navigate to="/login" replace />;
@@ -148,16 +154,51 @@ const BaitingSimulatorPage = () => {
     setShowOptions(true);
   };
 
-  const handleChoice = (option) => {
+  const handleChoice = async (option) => {
     setShowOptions(false);
     setCurrentFeedback(option.feedback);
     setShowFeedback(true);
 
+    const scoreChange = option.scoreImpact;
+    const newScore = Math.max(0, score + scoreChange);
+    setScore(newScore);
+
+    try {
+      // Simülasyon logunu kaydet
+      const simulationLog = {
+        userId: user.id,
+        simulationName: `Baiting Simulation - ${scenarios[currentScene].title}`,
+        isSuccessful: scoreChange > 0,
+        attemptedOn: new Date().toISOString()
+      };
+
+      await fetch(`http://localhost:5079/api/user/${user.id}/SimulationLogs`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(simulationLog),
+      });
+
+      // Skoru güncelle
+      await fetch(`http://localhost:5079/api/user/${user.id}/updateScore`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: user.id,
+          newScore: newScore
+        }),
+      });
+
+      updateScore(newScore);
+    } catch (error) {
+      console.error('İşlem hatası:', error);
+    }
+
     setTimeout(() => {
-      const newScore = score + option.scoreImpact;
-      setScore(newScore);
       setShowFeedback(false);
-      
       setShowTitle(true);
       setShowDescription(false);
       setShowContent(false);
@@ -184,7 +225,7 @@ const BaitingSimulatorPage = () => {
       options: [
         { 
           text: 'USB belleği bilgisayarınıza takıp içeriğine bakın', 
-          scoreImpact: -30,
+          scoreImpact: -10,
           feedback: 'Tehlikeli bir seçim! USB bellekler zararlı yazılım bulaştırmak için sıkça kullanılan bir yöntemdir.'
         },
         { 
@@ -206,7 +247,7 @@ const BaitingSimulatorPage = () => {
       options: [
         { 
           text: 'CD\'yi bilgisayarınıza takın', 
-          scoreImpact: -30,
+          scoreImpact: -10,
           feedback: 'Yanlış seçim! Bu tür CD\'ler genellikle zararlı yazılım içerir.'
         },
         { 
@@ -228,7 +269,7 @@ const BaitingSimulatorPage = () => {
       options: [
         { 
           text: 'Paketi açıp içine bakın', 
-          scoreImpact: -30,
+          scoreImpact: -10,
           feedback: 'Riskli! Beklenmeyen paketler tehlikeli olabilir. Önce göndericiyi doğrulamalısınız.'
         },
         { 
@@ -250,7 +291,7 @@ const BaitingSimulatorPage = () => {
       options: [
         { 
           text: 'Hard diski satın alıp kullanmaya başlayın', 
-          scoreImpact: -30,
+          scoreImpact: -10,
           feedback: 'Yanlış karar! İkinci el depolama cihazları zararlı yazılım içerebilir.'
         },
         { 
@@ -272,7 +313,7 @@ const BaitingSimulatorPage = () => {
       options: [
         { 
           text: 'Anketi doldurup tableti almaya çalışın', 
-          scoreImpact: -30,
+          scoreImpact: -10,
           feedback: 'Bu bir tuzak! Bedava tablet vaadi ile kişisel bilgilerinizi toplamaya çalışıyorlar.'
         },
         { 

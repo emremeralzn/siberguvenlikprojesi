@@ -62,8 +62,8 @@ const UserPanel = () => {
             fetchUserSimulationLogs(user.id),
             fetchUserTestLogs(user.id)
           ]);
-          setSimulationLogs(simLogs || []);
-          setTestLogs(testLogs || []);
+          setSimulationLogs((simLogs || []).sort((a, b) => new Date(b.attemptedOn) - new Date(a.attemptedOn)));
+          setTestLogs((testLogs || []).sort((a, b) => new Date(b.attemptedOn) - new Date(a.attemptedOn)));
         }
       } catch (err) {
         setError(`Veriler alınırken hata oluştu: ${err.message}`);
@@ -251,7 +251,7 @@ const UserPanel = () => {
       </Box>
 
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={4}>
           <Card sx={styles.statCard}>
             <CardContent>
               <Box sx={styles.statIconContainer}>
@@ -266,7 +266,7 @@ const UserPanel = () => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={4}>
           <Card sx={styles.statCard}>
             <CardContent>
               <Box sx={styles.statIconContainer}>
@@ -278,6 +278,65 @@ const UserPanel = () => {
               <Typography variant="h4" sx={styles.statValue}>
                 {Math.round((calculateSuccessRate(simulationLogs) + calculateSuccessRate(testLogs)) / 2)}%
               </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Card sx={styles.statsCard}>
+            <CardContent>
+              <Box sx={styles.cardHeader}>
+                <Assessment sx={styles.cardIcon} />
+                <Typography variant="h6" sx={styles.subHeaderText}>
+                  Performans
+                </Typography>
+              </Box>
+              <Divider sx={styles.divider} />
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <Paper sx={styles.statPaper}>
+                    <Speed sx={styles.statIcon} />
+                    <Typography variant="h6" sx={styles.statNumber}>
+                      {calculateWeeklyProgress(testLogs)}
+                    </Typography>
+                    <Typography variant="body2" sx={styles.statLabel}>
+                      Bu Hafta
+                    </Typography>
+                  </Paper>
+                </Grid>
+                <Grid item xs={6}>
+                  <Paper sx={styles.statPaper}>
+                    <TimelineIcon sx={styles.statIcon} />
+                    <Typography variant="h6" sx={styles.statNumber}>
+                      {testLogs.length}
+                    </Typography>
+                    <Typography variant="body2" sx={styles.statLabel}>
+                      Toplam
+                    </Typography>
+                  </Paper>
+                </Grid>
+                <Grid item xs={6}>
+                  <Paper sx={styles.statPaper}>
+                    <TrendingUp sx={styles.statIcon} />
+                    <Typography variant="h6" sx={styles.statNumber}>
+                      {calculateSuccessRate(testLogs)}%
+                    </Typography>
+                    <Typography variant="body2" sx={styles.statLabel}>
+                      Başarı Oranı
+                    </Typography>
+                  </Paper>
+                </Grid>
+                <Grid item xs={6}>
+                  <Paper sx={styles.statPaper}>
+                    <CalendarToday sx={styles.statIcon} />
+                    <Typography variant="h6" sx={styles.statNumber}>
+                      {calculateMonthlyProgress(testLogs)}
+                    </Typography>
+                    <Typography variant="body2" sx={styles.statLabel}>
+                      Bu Ay
+                    </Typography>
+                  </Paper>
+                </Grid>
+              </Grid>
             </CardContent>
           </Card>
         </Grid>
@@ -338,134 +397,56 @@ const UserPanel = () => {
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Card sx={styles.contentCard}>
-                <CardContent>
-                  <Box sx={styles.cardHeader}>
-                    <School sx={styles.cardIcon} />
-                    <Typography variant="h6" sx={styles.subHeaderText}>
-                      Test Geçmişi
-                    </Typography>
-                    <Tooltip title="Tamamladığınız testlerin listesi">
-                      <IconButton size="small" sx={styles.infoButton}>
-                        <Info fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                  </Box>
-                  <Divider sx={styles.divider} />
-                  {testLogs.length > 0 ? (
-                    <Box sx={styles.timelineContainer}>
-                      <Timeline>
-                        {testLogs.map((log) => (
-                          <TimelineItem key={log.id} sx={styles.timelineItem}>
-                            <TimelineSeparator>
-                              <TimelineDot color={log.isSuccessful ? "success" : "error"} sx={styles.timelineDot} />
-                              <TimelineConnector />
-                            </TimelineSeparator>
-                            <TimelineContent sx={{ flex: 1, width: "100%" }}>
-                              <Box sx={styles.timelineContent}>
-                                <Typography sx={styles.timelineTitle}>
-                                  {log.testName}
-                                </Typography>
-                                <Typography sx={styles.timelineDate}>
-                                  {new Date(log.attemptedOn).toLocaleDateString()}
-                                </Typography>
-                                <Chip
-                                  label={log.isSuccessful ? "Başarılı" : "Başarısız"}
-                                  color={log.isSuccessful ? "success" : "error"}
-                                  size="small"
-                                  sx={{ mt: 1 }}
-                                />
-                              </Box>
-                            </TimelineContent>
-                          </TimelineItem>
-                        ))}
-                      </Timeline>
-                    </Box>
-                  ) : (
-                    <Typography variant="body1" sx={styles.emptyText}>
-                      Henüz test geçmişiniz yok.
-                    </Typography>
-                  )}
-                </CardContent>
-              </Card>
-            </Grid>
-
-            <Grid item xs={12}>
-              <Card sx={styles.statsCard}>
-                <CardContent>
-                  <Box sx={styles.cardHeader}>
-                    <Assessment sx={styles.cardIcon} />
-                    <Typography variant="h6" sx={styles.subHeaderText}>
-                      Performans İstatistikleri
-                    </Typography>
-                    <Tooltip title="Test ve simülasyon performansınızın detaylı analizi">
-                      <IconButton size="small" sx={styles.infoButton}>
-                        <Info fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                  </Box>
-                  <Divider sx={styles.divider} />
-                  
-                  <Grid container spacing={2}>
-                    <Grid item xs={6}>
-                      <Paper sx={styles.statPaper}>
-                        <Speed sx={styles.statIcon} />
-                        <Typography variant="h6" sx={styles.statNumber}>
-                          {calculateWeeklyProgress(testLogs)}
-                        </Typography>
-                        <Typography variant="body2" sx={styles.statLabel}>
-                          Bu Hafta Tamamlanan
-                        </Typography>
-                      </Paper>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Paper sx={styles.statPaper}>
-                        <TimelineIcon sx={styles.statIcon} />
-                        <Typography variant="h6" sx={styles.statNumber}>
-                          {testLogs.length}
-                        </Typography>
-                        <Typography variant="body2" sx={styles.statLabel}>
-                          Toplam Test
-                        </Typography>
-                      </Paper>
-                    </Grid>
-                  </Grid>
-
-                  <Box sx={styles.progressSection}>
-                    <Typography variant="subtitle1" sx={styles.progressTitle}>
-                      Test İstatistikleri
-                    </Typography>
-                    <Grid container spacing={2}>
-                      <Grid item xs={6}>
-                        <Paper sx={styles.statPaper}>
-                          <TrendingUp sx={styles.statIcon} />
-                          <Typography variant="h6" sx={styles.statNumber}>
-                            {calculateSuccessRate(testLogs)}%
-                          </Typography>
-                          <Typography variant="body2" sx={styles.statLabel}>
-                            Başarı Oranı
-                          </Typography>
-                        </Paper>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Paper sx={styles.statPaper}>
-                          <Assessment sx={styles.statIcon} />
-                          <Typography variant="h6" sx={styles.statNumber}>
-                            {calculateMonthlyProgress(testLogs)}
-                          </Typography>
-                          <Typography variant="body2" sx={styles.statLabel}>
-                            Bu Ay Tamamlanan
-                          </Typography>
-                        </Paper>
-                      </Grid>
-                    </Grid>
-                  </Box>
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
+          <Card sx={styles.contentCard}>
+            <CardContent>
+              <Box sx={styles.cardHeader}>
+                <School sx={styles.cardIcon} />
+                <Typography variant="h6" sx={styles.subHeaderText}>
+                  Test Geçmişi
+                </Typography>
+                <Tooltip title="Tamamladığınız testlerin listesi">
+                  <IconButton size="small" sx={styles.infoButton}>
+                    <Info fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+              <Divider sx={styles.divider} />
+              {testLogs.length > 0 ? (
+                <Box sx={styles.timelineContainer}>
+                  <Timeline>
+                    {testLogs.map((log) => (
+                      <TimelineItem key={log.id} sx={styles.timelineItem}>
+                        <TimelineSeparator>
+                          <TimelineDot color={log.isSuccessful ? "success" : "error"} sx={styles.timelineDot} />
+                          <TimelineConnector />
+                        </TimelineSeparator>
+                        <TimelineContent sx={{ flex: 1, width: "100%" }}>
+                          <Box sx={styles.timelineContent}>
+                            <Typography sx={styles.timelineTitle}>
+                              {log.testName}
+                            </Typography>
+                            <Typography sx={styles.timelineDate}>
+                              {new Date(log.attemptedOn).toLocaleDateString()}
+                            </Typography>
+                            <Chip
+                              label={log.isSuccessful ? "Başarılı" : "Başarısız"}
+                              color={log.isSuccessful ? "success" : "error"}
+                              size="small"
+                              sx={{ mt: 1 }}
+                            />
+                          </Box>
+                        </TimelineContent>
+                      </TimelineItem>
+                    ))}
+                  </Timeline>
+                </Box>
+              ) : (
+                <Typography variant="body1" sx={styles.emptyText}>
+                  Henüz test geçmişiniz yok.
+                </Typography>
+              )}
+            </CardContent>
+          </Card>
         </Grid>
       </Grid>
     </Box>

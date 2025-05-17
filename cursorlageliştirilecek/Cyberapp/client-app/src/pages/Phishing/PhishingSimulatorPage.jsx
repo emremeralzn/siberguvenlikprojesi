@@ -1,10 +1,34 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import SimulationVideo from '../../Components/SimulationVideo';
 import BackgroundMusic from '../../Components/BackgroundMusic';
 import typingSound from '../../assets/sounds/typing.mp3';
+import {
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  List,
+  ListItem,
+  ListItemText,
+  CircularProgress,
+  Alert,
+  Grid,
+  LinearProgress,
+  Avatar,
+  Chip,
+  Divider,
+  Paper,
+  Tooltip,
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+} from "@mui/material";
 
 const TypewriterText = ({ text, onComplete, delay = 0, volume }) => {
   const [displayedText, setDisplayedText] = useState('');
@@ -49,7 +73,7 @@ const TypewriterText = ({ text, onComplete, delay = 0, volume }) => {
 };
 
 const PhishingSimulatorPage = () => {
-  const { user } = useContext(AuthContext);
+  const { user, updateScore } = useContext(AuthContext);
   const [isStarted, setIsStarted] = useState(false);
   const [currentScene, setCurrentScene] = useState(0);
   const [score, setScore] = useState(100);
@@ -64,6 +88,8 @@ const PhishingSimulatorPage = () => {
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
   const [musicVolume, setMusicVolume] = useState(0.1);
   const videoMounted = useRef(false);
+  const [showExitDialog, setShowExitDialog] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isStarted) {
@@ -169,15 +195,61 @@ const PhishingSimulatorPage = () => {
     setShowOptions(true);
   };
 
-  const handleChoice = (option) => {
+  const handleChoice = async (option) => {
     setShowOptions(false);
     setCurrentFeedback(option.feedback);
     setShowFeedback(true);
 
+    // Seçilen seçeneğin puan etkisini doğrudan kullan
+    const scoreChange = option.scoreImpact;
+    const newScore = Math.max(0, score + scoreChange); // Skorun 0'ın altına düşmemesini sağla
+    setScore(newScore);
+
+    try {
+      // Simülasyon logunu kaydet
+      const simulationLog = {
+        userId: user.id,
+        simulationName: `Phishing Simulation - ${scenarios[currentScene].title}`,
+        isSuccessful: scoreChange > 0,
+        attemptedOn: new Date().toISOString()
+      };
+
+      const logResponse = await fetch(`http://localhost:5079/api/user/${user.id}/SimulationLogs`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(simulationLog),
+      });
+
+      if (!logResponse.ok) {
+        throw new Error('Simülasyon logu kaydedilemedi');
+      }
+
+      // Skoru güncelle
+      const scoreResponse = await fetch(`http://localhost:5079/api/user/${user.id}/updateScore`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: user.id,
+          newScore: newScore
+        }),
+      });
+
+      if (!scoreResponse.ok) {
+        throw new Error('Skor güncellenemedi');
+      }
+
+      updateScore(newScore);
+
+    } catch (error) {
+      console.error('İşlem hatası:', error);
+    }
+
     // 3 saniye feedback göster
     setTimeout(() => {
-      const newScore = score + option.scoreImpact;
-      setScore(newScore);
       setShowFeedback(false);
       
       // Reset all states
@@ -192,6 +264,18 @@ const PhishingSimulatorPage = () => {
         setCurrentScene(currentScene + 1);
       }
     }, 3000);
+  };
+
+  const handleExitClick = () => {
+    setShowExitDialog(true);
+  };
+
+  const handleConfirmExit = () => {
+    navigate('/dashboard');
+  };
+
+  const handleCancelExit = () => {
+    setShowExitDialog(false);
   };
 
   const scenarios = [
@@ -358,26 +442,36 @@ const PhishingSimulatorPage = () => {
             animate={{ opacity: 1 }}
             style={styles.gameContainer}
           >
-            {videoMounted.current && <SimulationVideo />}
-            
-            <div style={styles.musicControl}>
-              <button 
-                onClick={() => setIsMusicPlaying(!isMusicPlaying)}
-                style={styles.musicButton}
+            <div style={styles.headerControls}>
+              <div style={styles.musicControl}>
+                <button 
+                  onClick={() => setIsMusicPlaying(!isMusicPlaying)}
+                  style={styles.musicButton}
+                >
+                  {isMusicPlaying ? '🔊' : '🔇'}
+                </button>
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.1"
+                  value={musicVolume}
+                  onChange={(e) => setMusicVolume(parseFloat(e.target.value))}
+                  style={styles.volumeSlider}
+                />
+              </div>
+              <motion.button
+                onClick={handleExitClick}
+                style={styles.exitButton}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                {isMusicPlaying ? '🔊' : '🔇'}
-              </button>
-              <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.1"
-                value={musicVolume}
-                onChange={(e) => setMusicVolume(parseFloat(e.target.value))}
-                style={styles.volumeSlider}
-              />
+                Simülasyondan Çık
+              </motion.button>
             </div>
 
+            {videoMounted.current && <SimulationVideo />}
+            
             <div style={styles.scenarioTitle}>
               {showTitle && (
                 <h3>
@@ -475,6 +569,48 @@ const PhishingSimulatorPage = () => {
           </motion.div>
         )}
       </div>
+
+      <Dialog
+        open={showExitDialog}
+        onClose={handleCancelExit}
+        PaperProps={{
+          style: {
+            backgroundColor: '#2a2a2a',
+            color: '#ffffff',
+            borderRadius: '15px',
+            padding: '20px',
+          }
+        }}
+      >
+        <DialogTitle style={{ color: '#ffffff', fontSize: '24px' }}>
+          Simülasyondan Çıkış
+        </DialogTitle>
+        <DialogContent>
+          <Typography style={{ color: '#ffffff', fontSize: '16px', marginTop: '10px' }}>
+            Simülasyondan çıkmak istediğinizden emin misiniz? Çıktığınızda ilerlemeniz kaydedilmeyecek ve tekrar başladığınızda en baştan başlayacaksınız.
+          </Typography>
+        </DialogContent>
+        <DialogActions style={{ padding: '20px' }}>
+          <Button 
+            onClick={handleCancelExit}
+            style={styles.dialogButton}
+          >
+            Vazgeç
+          </Button>
+          <Button 
+            onClick={handleConfirmExit}
+            style={{
+              ...styles.dialogButton,
+              backgroundColor: '#f44336',
+              '&:hover': {
+                backgroundColor: '#d32f2f',
+              }
+            }}
+          >
+            Çıkış Yap
+          </Button>
+        </DialogActions>
+      </Dialog>
     </motion.div>
   );
 };
@@ -741,15 +877,15 @@ const styles = {
     border: '1px solid rgba(255,255,255,0.1)',
   },
   musicControl: {
-    position: 'absolute',
-    top: '20px',
-    right: '20px',
     display: 'flex',
     alignItems: 'center',
-    gap: '10px',
-    background: 'rgba(0, 0, 0, 0.3)',
-    padding: '10px',
-    borderRadius: '8px',
+    gap: '18px',
+    background: 'rgba(0, 0, 0, 0.25)',
+    padding: '10px 18px',
+    borderRadius: '12px',
+    backdropFilter: 'blur(5px)',
+    border: '1px solid rgba(255,255,255,0.1)',
+    marginTop: '0',
   },
   musicButton: {
     background: 'none',
@@ -765,6 +901,58 @@ const styles = {
     '&:hover': {
       transform: 'scale(1.1)',
     },
+  },
+  headerControls: {
+    position: 'absolute',
+    top: '0',
+    left: 0,
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '24px 40px 0 40px',
+    zIndex: 1000,
+    background: 'rgba(30,30,30,0.95)',
+    borderTopLeftRadius: '15px',
+    borderTopRightRadius: '15px',
+    minHeight: '70px',
+    boxSizing: 'border-box',
+  },
+  exitButton: {
+    padding: '12px 24px',
+    fontSize: '16px',
+    background: 'linear-gradient(135deg, #f44336 0%, #d32f2f 100%)',
+    color: '#ffffff',
+    border: 'none',
+    borderRadius: '12px',
+    cursor: 'pointer',
+    fontWeight: '500',
+    boxShadow: '0 4px 15px rgba(244,67,54,0.3)',
+    transition: 'all 0.3s ease',
+    '&:hover': {
+      transform: 'translateY(-2px)',
+      boxShadow: '0 6px 20px rgba(244,67,54,0.4)',
+    },
+    '&:active': {
+      transform: 'translateY(1px)',
+    }
+  },
+  dialogButton: {
+    padding: '10px 20px',
+    fontSize: '16px',
+    borderRadius: '8px',
+    cursor: 'pointer',
+    transition: 'all 0.3s ease',
+    color: '#ffffff',
+    border: 'none',
+    marginLeft: '10px',
+    '&:hover': {
+      transform: 'translateY(-2px)',
+    },
+    '&:active': {
+      transform: 'translateY(1px)',
+    }
   },
 };
 

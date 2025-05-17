@@ -83,9 +83,10 @@ const PhishingTestPage = () => {
       // Simülasyon logunu kaydet
       const simulationLog = {
         userId: user.id,
-        simulationName: `Phishing_${scenarios[currentScenario].type}`,
+        testName: `Phishing Awareness Test - ${scenarios[currentScenario].title}`,
         isSuccessful: option.result === 'safe',
-        attemptedOn: new Date().toISOString()
+        attemptedOn: new Date().toISOString(),
+        orderBy: new Date().getTime()
       };
 
       await fetch(`http://localhost:5079/api/user/${user.id}/TestLogs`, {

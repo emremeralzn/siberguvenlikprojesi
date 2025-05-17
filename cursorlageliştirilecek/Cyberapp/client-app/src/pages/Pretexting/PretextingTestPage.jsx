@@ -143,15 +143,15 @@ const PretextingTestPage = () => {
     setScore(newScore);
 
     try {
-      // Simülasyon logunu kaydet
       const simulationLog = {
         userId: user.id,
-        simulationName: `Pretexting_${scenarios[currentScenario].type}`,
+        testName: `Pretexting Awareness Test - ${scenarios[currentScenario].title}`,
         isSuccessful: option.result === 'safe',
-        attemptedOn: new Date().toISOString()
+        attemptedOn: new Date().toISOString(),
+        orderBy: new Date().getTime()
       };
 
-      await fetch(`http://localhost:5079/api/user/${user.id}/simulationLogs`, {
+      await fetch(`http://localhost:5079/api/user/${user.id}/TestLogs`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -159,7 +159,6 @@ const PretextingTestPage = () => {
         body: JSON.stringify(simulationLog),
       });
 
-      // Skoru güncelle
       await fetch(`http://localhost:5079/api/user/${user.id}/updateScore`, {
         method: 'POST',
         headers: {

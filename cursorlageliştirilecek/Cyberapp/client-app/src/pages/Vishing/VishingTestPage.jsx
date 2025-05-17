@@ -46,6 +46,90 @@ const VishingTestPage = () => {
           feedback: 'İyi! Şüpheli aramaları sonlandırmak güvenlidir.'
         }
       ]
+    },
+    {
+      type: 'police',
+      title: 'Sahte Polis Araması',
+      description: 'Polis olduğunu iddia eden biri sizi arıyor:',
+      content: `
+        "Ben polis memuru Ahmet. Kimliğiniz bir suçta kullanılmış. Hesabınızı korumak için paranızı güvenli hesaba aktarmamız gerekiyor. Hemen iş birliği yapmazsanız tutuklanabilirsiniz."
+      `,
+      options: [
+        {
+          text: 'Paranızı verilen hesaba aktarın',
+          result: 'trap',
+          scoreImpact: -30,
+          feedback: 'Yanlış! Polis asla böyle bir şey istemez. Bu klasik bir dolandırıcılık yöntemidir.'
+        },
+        {
+          text: 'Polis merkezini resmi numaradan arayın',
+          result: 'safe',
+          scoreImpact: 30,
+          feedback: 'Doğru! Resmi kanallardan doğrulama yapmak en güvenli yoldur.'
+        },
+        {
+          text: 'Telefonu kapatın ve kimseyle bilgi paylaşmayın',
+          result: 'safe',
+          scoreImpact: 20,
+          feedback: 'İyi! Bilgi paylaşmamak ve görüşmeyi sonlandırmak güvenlidir.'
+        }
+      ]
+    },
+    {
+      type: 'tech',
+      title: 'Sahte Teknik Destek',
+      description: 'Teknik destekten aradığını iddia eden biri:',
+      content: `
+        "Bilgisayarınızda virüs tespit ettik. Uzaktan bağlantı kurmamız ve kredi kartı ile güvenlik paketi satın almanız gerekiyor."
+      `,
+      options: [
+        {
+          text: 'Uzaktan bağlantı ve kart bilgilerini ver',
+          result: 'trap',
+          scoreImpact: -30,
+          feedback: 'Yanlış! Gerçek teknik destek asla böyle bilgi istemez.'
+        },
+        {
+          text: 'Kendi IT departmanınızı arayın',
+          result: 'safe',
+          scoreImpact: 30,
+          feedback: 'Harika! Her zaman kendi kurumunuzun IT departmanını arayın.'
+        },
+        {
+          text: 'Görüşmeyi sonlandır',
+          result: 'safe',
+          scoreImpact: 20,
+          feedback: 'İyi! Şüpheli aramaları sonlandırmak güvenlidir.'
+        }
+      ]
+    },
+    {
+      type: 'prize',
+      title: 'Sahte Ödül Bildirimi',
+      description: 'Bir yarışmadan ödül kazandığınızı iddia eden bir arama:',
+      content: `
+        "Tebrikler! 50.000 TL değerinde ödül kazandınız. Ödülünüzü almak için sadece küçük bir işlem ücreti ödemeniz gerekiyor."
+      `,
+      options: [
+        {
+          text: 'İşlem ücretini öde ve bilgilerini paylaş',
+          result: 'trap',
+          scoreImpact: -30,
+          feedback: 'Yanlış! Katılmadığınız bir yarışmadan ödül kazanamazsınız. Bu bir dolandırıcılık.'
+        },
+        {
+          text: 'Aramayı sonlandır',
+          result: 'safe',
+          scoreImpact: 20,
+          feedback: 'Doğru! Şüpheli ödül aramalarını dikkate almamak en güvenli yoldur.'
+        },
+        {
+          text: 'Yarışma şirketini resmi numaradan arayın',
+          result: 'safe',
+          scoreImpact: 30,
+          feedback: 'Harika! Her zaman resmi kanallardan doğrulama yapın.'
+        }
+      ]
     }
   ];
 
@@ -58,12 +142,13 @@ const VishingTestPage = () => {
     try {
       const simulationLog = {
         userId: user.id,
-        simulationName: `Vishing_${scenarios[currentScenario].type}`,
+        testName: `Vishing Awareness Test - ${scenarios[currentScenario].title}`,
         isSuccessful: option.result === 'safe',
-        attemptedOn: new Date().toISOString()
+        attemptedOn: new Date().toISOString(),
+        orderBy: new Date().getTime()
       };
 
-      await fetch(`http://localhost:5079/api/user/${user.id}/simulationLogs`, {
+      await fetch(`http://localhost:5079/api/user/${user.id}/TestLogs`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

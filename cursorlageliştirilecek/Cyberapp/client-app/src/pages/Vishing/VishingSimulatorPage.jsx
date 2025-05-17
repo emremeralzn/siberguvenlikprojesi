@@ -114,7 +114,7 @@ const scenarios = [
 ];
 
 const VishingSimulatorPage = () => {
-  const { user } = useContext(AuthContext);
+  const { user, updateScore } = useContext(AuthContext);
   const [isStarted, setIsStarted] = useState(false);
   const [currentScene, setCurrentScene] = useState(0);
   const [score, setScore] = useState(100);
@@ -141,16 +141,52 @@ const VishingSimulatorPage = () => {
     setShowOptions(true);
   };
 
-  const handleChoice = (option) => {
+  const handleChoice = async (option) => {
     setShowOptions(false);
     setCurrentFeedback(option.feedback);
     setShowFeedback(true);
 
+    const scoreChange = option.scoreImpact;
+    const newScore = Math.max(0, score + scoreChange);
+    setScore(newScore);
+
+    try {
+      // Simülasyon logunu kaydet
+      const simulationLog = {
+        userId: user.id,
+        simulationName: `Vishing Simulation - ${scenarios[currentScene].title}`,
+        isSuccessful: scoreChange > 0,
+        attemptedOn: new Date().toISOString(),
+        orderBy: new Date().getTime()
+      };
+
+      await fetch(`http://localhost:5079/api/user/${user.id}/SimulationLogs`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(simulationLog),
+      });
+
+      // Skoru güncelle
+      await fetch(`http://localhost:5079/api/user/${user.id}/updateScore`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: user.id,
+          newScore: newScore
+        }),
+      });
+
+      updateScore(newScore);
+    } catch (error) {
+      console.error('İşlem hatası:', error);
+    }
+
     setTimeout(() => {
-      const newScore = score + option.scoreImpact;
-      setScore(newScore);
       setShowFeedback(false);
-      
       if (currentScene === scenarios.length - 1 || newScore <= 0) {
         setGameOver(true);
       } else {
