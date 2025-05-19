@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Image from "react-bootstrap/Image";
-import logo2 from "../assets/logo2.png";
+import logo2 from "../assets/logosiber.png";
 import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram, FaYoutube, FaGithub, FaPinterest } from "react-icons/fa";
 import "../Components/styles/Footer.css";
 

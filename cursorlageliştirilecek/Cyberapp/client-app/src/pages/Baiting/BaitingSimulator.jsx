@@ -41,6 +41,10 @@ const BaitingSimulator = () => {
     }
   }, [user]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const handleChoice = async (option) => {
     // ... existing handleChoice code ...
 

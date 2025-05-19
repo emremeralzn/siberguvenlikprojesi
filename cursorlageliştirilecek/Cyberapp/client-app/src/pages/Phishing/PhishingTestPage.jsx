@@ -12,6 +12,10 @@ const PhishingTestPage = () => {
   const [showFeedback, setShowFeedback] = useState(false);
   const [feedback, setFeedback] = useState(null);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   if (!user) {
     return <Navigate to="/login" replace />;
   }

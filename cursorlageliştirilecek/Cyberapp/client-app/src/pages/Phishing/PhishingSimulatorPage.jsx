@@ -92,6 +92,10 @@ const PhishingSimulatorPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     if (isStarted) {
       videoMounted.current = true;
       setIsMusicPlaying(true);

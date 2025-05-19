@@ -26,6 +26,9 @@ import BaitingSimulatorPage from './pages/Baiting/BaitingSimulatorPage';
 import PretextingSimulatorPage from './pages/Pretexting/PretextingSimulatorPage';
 import VishingSimulatorPage from './pages/Vishing/VishingSimulatorPage';
 import Resources from './pages/Common/Resources';
+import PrivacyPolicy from './pages/Common/privacy-policy';
+import Terms from './pages/Common/terms';
+import NotFound from './pages/Common/NotFound';
 function App() {
   return (
     <AuthProvider>
@@ -43,7 +46,9 @@ function App() {
           <Route path="/documentation/:category" element={<TipDetailPage />} />
           <Route path="/resources" element={<Resources />} />
           <Route path="/simulators" element={<SimulatorsPage />} />
-
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="*" element={<NotFound />} />
           <Route path="/simulators/phishing" element={<PhishingSimulator />} />
           <Route path="/simulators/phishing/test" element={<PhishingTestPage />} />
           <Route path="/simulators/phishing/simulator" element={<PhishingSimulatorPage />} />

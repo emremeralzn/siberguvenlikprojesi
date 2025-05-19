@@ -64,6 +64,10 @@ const BaitingSimulatorPage = () => {
   const videoMounted = useRef(false);
   const [showExitDialog, setShowExitDialog] = useState(false);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   if (!user) {
     return <Navigate to="/login" replace />;
   }

@@ -36,8 +36,13 @@ const Home = () => {
     return () => clearInterval(interval); // Temizleme
   }, [slideImages.length]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const [showQuestionModal, setShowQuestionModal] = useState(false);
   const [answerResult, setAnswerResult] = useState(null); // null, 'dogru', 'yanlis'
+  const [showQuestionButton, setShowQuestionButton] = useState(true); // Yeni state
 
   return (
     <div className="container">
@@ -187,37 +192,39 @@ const Home = () => {
         </motion.div>
       </div>
 
-      {/* Chatbot tarzı Günün Sorusu butonu - slider üstünde sağ alt köşe */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '30px',
-          right: '30px',
-          zIndex: 20,
-        }}
-      >
-        <button
+      {/* Chatbot tarzı Günün Sorusu butonu */}
+      {showQuestionButton && (
+        <div
           style={{
-            background: '#238636',
-            color: 'white',
-            border: 'none',
-            borderRadius: '50%',
-            width: '60px',
-            height: '60px',
-            fontSize: '28px',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            transition: 'background 0.3s',
+            position: 'fixed',
+            bottom: '30px',
+            right: '30px',
+            zIndex: 9999,
           }}
-          onClick={() => setShowQuestionModal(true)}
-          title="Günün Sorusu"
         >
-          ?
-        </button>
-      </div>
+          <button
+            style={{
+              background: '#238636',
+              color: 'white',
+              border: 'none',
+              borderRadius: '50%',
+              width: '60px',
+              height: '60px',
+              fontSize: '28px',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'background 0.3s',
+            }}
+            onClick={() => setShowQuestionModal(true)}
+            title="Günün Sorusu"
+          >
+            ?
+          </button>
+        </div>
+      )}
 
       {/* Günün Sorusu Modal */}
       {showQuestionModal && (
@@ -265,28 +272,23 @@ const Home = () => {
                 {answerResult === 'yanlis' && (
                   <button style={{background:'#30363d', color:'white', border:'none', borderRadius:'6px', padding:'10px 24px', fontSize:'16px', cursor:'pointer', marginTop:'10px', marginRight:'10px'}} onClick={() => setAnswerResult(null)}>Tekrar Dene</button>
                 )}
-                <button style={{background:'#238636', color:'white', border:'none', borderRadius:'6px', padding:'10px 24px', fontSize:'16px', cursor:'pointer', marginTop:'10px'}} onClick={() => { setShowQuestionModal(false); setAnswerResult(null); }}>Tamam</button>
+                <button style={{background:'#238636', color:'white', border:'none', borderRadius:'6px', padding:'10px 24px', fontSize:'16px', cursor:'pointer', marginTop:'10px'}} onClick={() => { 
+                  setShowQuestionModal(false); 
+                  setAnswerResult(null);
+                  setShowQuestionButton(false); // Cevap verildiğinde butonu gizle
+                }}>Tamam</button>
               </div>
             )}
-            <button style={{position:'absolute', top:'12px', right:'16px', background:'none', border:'none', color:'#c9d1d9', fontSize:'22px', cursor:'pointer'}} onClick={() => { setShowQuestionModal(false); setAnswerResult(null); }} title="Kapat">×</button>
+            <button style={{position:'absolute', top:'12px', right:'16px', background:'none', border:'none', color:'#c9d1d9', fontSize:'22px', cursor:'pointer'}} onClick={() => { 
+              setShowQuestionModal(false); 
+              setAnswerResult(null);
+              setShowQuestionButton(false); // Modal kapatıldığında butonu gizle
+            }} title="Kapat">×</button>
           </div>
         </div>
       )}
 
-      {/* Resources and Social Media Sections */}
-      <div className="resourcesSection">
-        <h3>Kaynaklar</h3>
-        <ul className="resourcesList">
-          <li><a href="/guide" className="resourcesLink">Güvenlik Rehberi</a></li>
-          <li><a href="/blog" className="resourcesLink">Blog</a></li>
-        </ul>
-      </div>
-
-      <div className="socialMediaSection">
-        <button className="socialMediaButton">Facebook</button>
-        <button className="socialMediaButton">Twitter</button>
-        <button className="socialMediaButton">LinkedIn</button>
-      </div>
+      
     </div>
   );
 };

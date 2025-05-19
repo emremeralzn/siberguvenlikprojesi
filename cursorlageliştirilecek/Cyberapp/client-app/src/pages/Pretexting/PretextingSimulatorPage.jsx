@@ -177,6 +177,10 @@ const PretextingSimulatorPage = () => {
   const [volume, setVolume] = useState(0.2);
   const [contentComplete, setContentComplete] = useState(false);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const handleTitleComplete = () => {
     setShowDescription(true);
   };

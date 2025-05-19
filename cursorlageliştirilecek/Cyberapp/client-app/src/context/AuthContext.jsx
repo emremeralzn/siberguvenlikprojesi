@@ -47,9 +47,10 @@ export const AuthProvider = ({ children }) => {
 
       if (userDetailsResponse.ok) {
         const userDetails = await userDetailsResponse.json();
-        // Login yanıtı ile güncel skoru birleştir
+        // Login yanıtı ile güncel skoru birleştir ve şifreyi çıkar
+        const { password, ...userDataWithoutPassword } = userData;
         const completeUserData = {
-          ...userData,
+          ...userDataWithoutPassword,
           score: userDetails.score
         };
         
@@ -57,8 +58,9 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('user', JSON.stringify(completeUserData));
       } else {
         // Kullanıcı detayları alınamazsa bile temel bilgilerle devam et
-        setUser(userData);
-        localStorage.setItem('user', JSON.stringify(userData));
+        const { password, ...userDataWithoutPassword } = userData;
+        setUser(userDataWithoutPassword);
+        localStorage.setItem('user', JSON.stringify(userDataWithoutPassword));
       }
 
       return true;

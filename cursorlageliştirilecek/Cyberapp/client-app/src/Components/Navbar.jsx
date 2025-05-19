@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { AuthContext } from "../context/AuthContext"; // Kullanıcı oturum kontrolü
 import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa"; // Sosyal medya ikonları
-import logo2 from "../assets/logo2.png"; // Logo görseli
+import logo2 from "../assets/logosiber.png"; // Logo görseli
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -58,7 +58,6 @@ const Navbar = () => {
             src={logo2}
             alt="Logo"
             style={styles.logoImage}
-            whileHover={{ scale: 1.1 }}
           />
         </Link>
       </div>
@@ -191,15 +190,21 @@ const styles = {
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
     position: "relative",
     zIndex: 100,
+    height: "70px",
   },
   logo: {
     fontSize: "24px",
     fontWeight: "bold",
     color: "#00ffcc",
+    display: "flex",
+    alignItems: "center",
+    height: "100%",
+    overflow: "hidden",
   },
   logoImage: {
-    height: "40px",
+    height: "140px",
     width: "auto",
+    objectFit: "contain",
   },
   navLinks: {
     display: "flex",

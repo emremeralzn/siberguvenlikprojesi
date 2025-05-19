@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { motion } from 'framer-motion';
@@ -7,6 +7,10 @@ const PretextingSimulator = () => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState(null);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   if (!user) {
     return <Navigate to="/login" replace />;
