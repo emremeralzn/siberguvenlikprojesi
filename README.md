@@ -1,58 +1,50 @@
-# 🛡️ Siber Güvenlik Simülasyonu Projesi
+# 🛡️ Siber Güvenlik Simülasyonu Uygulaması
 
-🚀 **ASP.NET 8.0**, **React**, **SQLite**, **Entity Framework**, **RESTful API** ile geliştirilen bu proje; kullanıcıların siber saldırı türlerine karşı bilinçlenmesini amaçlayan, interaktif ve test tabanlı bir simülasyon ortamı sunar.
+🚀 ASP.NET Core 8.0, React, SQLite ve Entity Framework ile geliştirilen bu uygulama, kullanıcıların sosyal mühendislik saldırılarına karşı farkındalıklarını test etmelerini ve güvenlik bilinç düzeylerini artırmalarını sağlayan interaktif bir simülasyon sistemidir.
 
 ---
 
 ## 🎯 Proje Amacı
 
-Bu projede kullanıcılar sisteme giriş yaptıktan sonra;
+Bu projede kullanıcılar:
 
-- Gerçek hayatta karşılaşabilecekleri **Phishing**, **Baiting**, **Vishing**, **Pretexting** gibi sosyal mühendislik saldırı türlerine karşı test edilir.
-- Her test interaktif sayfalarda gerçekleştirilir.
-- Kullanıcının verdiği cevaplara göre skorlar belirlenir.
-- Tüm simülasyon logları veritabanına kayıt edilir.
+- Gerçek dünyadaki saldırılara benzetilmiş **Phishing**, **Baiting**, **Vishing**, **Pretexting** gibi senaryolarda test edilir.
+- Her saldırı tipi, özel olarak tasarlanmış interaktif bir sayfa üzerinden sunulur.
+- Kullanıcının verdiği cevaplara göre sistem tarafından skor hesaplanır.
+- Tüm test adımları detaylı şekilde loglanır ve veri tabanına kaydedilir.
+- Test sonunda kullanıcıya hem puanı hem de bilgi verici geri bildirim sunulur.
 
 ---
 
 ## 🛠️ Kullanılan Teknolojiler
 
-| Teknoloji                 | Açıklama                           |
-| ------------------------- | ---------------------------------- |
-| 🌐 **ASP.NET 8.0**        | Backend API yapısı                 |
-| 🔄 **Entity Framework**   | ORM ve veri yönetimi               |
-| ⚛️ **React**              | Kullanıcı arayüzü                  |
-| 💾 **SQLite**             | Hafif ve gömülü veritabanı çözümü  |
-| 📦 **Context API**        | Global state management            |
-| 📬 **Postman**            | API testleri ve senaryo denemeleri |
-| 🧪 **Swagger**            | API dokümantasyonu                 |
-| 🧱 **Onion Architecture** | Katmanlı temiz mimari yapısı       |
-| 🔄 **AutoMapper**         | DTO ve Entity dönüşümleri          |
+| Teknoloji               | Açıklama                                         |
+|------------------------|--------------------------------------------------|
+| 🌐 ASP.NET Core 8.0    | Backend RESTful API                              |
+| 🔄 Entity Framework    | ORM ve SQLite veri yönetimi                      |
+| ⚛️ React               | Modern kullanıcı arayüzü                         |
+| 💾 SQLite              | Gömülü, hafif veritabanı                         |
+| 📦 Context API         | React global state yönetimi                      |
+| 🧪 Swagger             | API dokümantasyonu ve test arayüzü               |
+| 📬 Postman             | API endpoint testleri ve senaryo kontrolleri     |
+| 🧱 Onion Architecture  | Katmanlı, sürdürülebilir, temiz mimari yapısı    |
+| 🔄 AutoMapper          | Entity ↔ DTO veri dönüşümleri                    |
 
 ---
 
-## 💡 Öne Çıkan Özellikler
+## 🧩 Proje Yapısı
 
-- 🧠 **Simülasyon Sayfaları**: Kullanıcılar, farklı saldırı türlerine karşı tepkilerini test edebilir.
-- 📊 **Loglama**: Her adım sistemsel olarak kaydedilir.
-- 🎯 **Kişisel Farkındalık**: Kullanıcı testleri ile güvenlik farkındalığı kazanır.
-- 📱 **Responsive Tasarım**: Mobil uyumlu, kullanıcı dostu ve sade arayüz.
-- 🔐 **Giriş Sistemi**: Kullanıcı kimlik doğrulama ve oturum yönetimi.
-
----
-
-Kurulum
-git clone https://github.com/kullaniciAdi/siber-guvenlik-simulasyon.git
-cd CyberApp.API
-dotnet restore
-dotnet run
-
-# ayrı terminalde
-
-cd client-app
-npm install
-npm start
-
-Swagger arayüzü üzerinden tüm endpoint'leri test edebilirsiniz:
-
-https://localhost:5001/swagger
+```bash
+siber-guvenlik-projesi/
+├── CyberApp.API/               # ASP.NET Web API projesi
+│   ├── Controllers/
+│   ├── Program.cs
+│   └── appsettings.json
+├── Application/                # Servisler, DTO’lar, Interfaceler
+├── Domain/                     # Entity sınıfları
+├── Persistence/                # EF Core, DbContext, Migrations
+├── Infrastructure/             # Harici servisler (örneğin mail)
+├── client-app/                 # React tabanlı frontend uygulaması
+│   ├── pages/
+│   ├── components/
+│   └── context/
